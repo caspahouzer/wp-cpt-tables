@@ -1,0 +1,27 @@
+.save {
+    margin-top: 20px !important;
+}
+
+.cpt-type-choose {
+    width: 100% !important;
+}
+
+li {
+    margin-bottom: 0 !important;
+}
+
+.cpt-stats table {
+    width: 100% !important;
+}
+
+.cpt-stats th {
+    text-align: left;
+}
+
+.cpt-stats .center {
+    text-align: center;
+}
+
+td .slug {
+    font-size: 11px;
+}
