@@ -24,8 +24,20 @@ class Core
 
     public function __construct()
     {
+        global $wpdb;
+
         $this->db = new Db;
-        $this->config = require __DIR__ . '/config.php';
+
+        $this->config = [
+            'post_types' => array_map(function ($postType) {
+                return esc_html($postType);
+            }, get_option('cpt_tables:tables_enabled', [])),
+            'tables_enabled' => 'cpt_tables:tables_enabled',
+            'prefix' => $wpdb->prefix . get_option('cpt_tables:tables_prefix', 'cpt_'),
+            'plugin_slug' => 'wp-cpt-tables',
+            'default_post_table' => $wpdb->prefix . 'posts',
+            'default_meta_table' => $wpdb->prefix . 'postmeta',
+        ];
     }
 
     /**
@@ -81,7 +93,8 @@ class Core
     {
         new SettingsPage(
             new Table($this->db, $this->config),
-            new Triggers($this->db, $this->config)
+            new Triggers($this->db, $this->config),
+            $this->config
         );
     }
 

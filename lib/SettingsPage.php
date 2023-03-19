@@ -72,13 +72,13 @@ class SettingsPage
      * @param Table   $table
      * @param Triggers $triggers
      */
-    public function __construct(Table $table, Triggers $triggers)
+    public function __construct(Table $table, Triggers $triggers, $config)
     {
         // $this->enqueue_styles();
         $this->notices = new Notices;
         $this->helper = new Helper;
 
-        $this->config = require(__DIR__ . '/../config.php');
+        $this->config = $config;
 
         $this->table = $table;
         $this->triggers = $triggers;

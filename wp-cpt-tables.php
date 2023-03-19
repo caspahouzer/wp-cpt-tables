@@ -29,10 +29,7 @@ foreach ($includes as $include) {
     require_once($include);
 }
 
-// use CptTables\Core;
-
-$config = require __DIR__ . '/config.php';
-$core = new Core(new Db(), $config);
+$core = new Core(new Db());
 
 register_activation_hook(__FILE__, [$core, 'activate']);
 register_deactivation_hook(__FILE__, [$core, 'deactivate']);
