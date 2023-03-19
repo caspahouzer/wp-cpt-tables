@@ -1,10 +1,9 @@
 === Custom Post Type Tables ===
 Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
-Requires at least: 4.9
+Requires at least: 5.9
 Tested up to: 6.1.1
 Requires PHP: 7.1
-Stable tag: 0.8.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
