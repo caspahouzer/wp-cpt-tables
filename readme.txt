@@ -69,3 +69,9 @@ Developed with ♥ by [Sebastian](https://lightapps.de).
 This plugin was initially created for own usage to get a big database cleaner.
 
 Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) and submit pull requests or open issues
+
+== Changelog ==
+
+=== 1.0.1 ===
+
+* Added _ to accepted chars of post type

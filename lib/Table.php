@@ -14,11 +14,6 @@ class Table
     private $config;
 
     /**
-     * @var string
-     */
-    private $table;
-
-    /**
      * The notices class
      * @var Notices
      */
@@ -55,7 +50,6 @@ class Table
      */
     public function create(string $table)
     {
-        global $wpdb;
         $table = $this->config['prefix'] . str_replace('-', '_', $table);
 
         $this->createTables($table);

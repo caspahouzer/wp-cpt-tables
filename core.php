@@ -33,7 +33,7 @@ class Core
                 return esc_html($postType);
             }, get_option('cpt_tables:tables_enabled', [])),
             'tables_enabled' => 'cpt_tables:tables_enabled',
-            'prefix' => $wpdb->prefix . get_option('cpt_tables:tables_prefix', 'cpt_'),
+            'prefix' => $wpdb->prefix . 'cpt_',
             'plugin_slug' => 'wp-cpt-tables',
             'default_post_table' => $wpdb->prefix . 'posts',
             'default_meta_table' => $wpdb->prefix . 'postmeta',
@@ -47,11 +47,8 @@ class Core
     {
         $self = new self();
 
-        // $self->db = new Db;
-        // $self->config = require(__DIR__ . '/config.php');
-
-        add_filter('plugin_action_links_' . WPCPTTABLES_BASENAME, [$this, 'add_action_links'], 10, 2);
-        add_filter('network_admin_plugin_action_links_' . WPCPTTABLES_BASENAME, [$this, 'add_action_links_network'], 10, 2);
+        add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'add_action_links'], 10, 2);
+        add_filter('network_admin_plugin_action_links_' . plugin_basename(__FILE__), [$this, 'add_action_links_network'], 10, 2);
 
         $self->setupAdminFilters();
         $self->setupQueryFilters();
@@ -129,7 +126,7 @@ class Core
         $settings = '<a href="' . admin_url('options-general.php?page=' . $this->config['plugin_slug']) . '">' . __('Settings') . '</a>';
         array_unshift($links, $settings);
 
-        $premium = '<a href="' . admin_url('options-general.php?page=' . $this->config['plugin_slug']) . '" style="font-weight:bold">' . __('Go pro', $this->config['plugin_slug']) . '</a>';
+        // $premium = '<a href="' . admin_url('options-general.php?page=' . $this->config['plugin_slug']) . '" style="font-weight:bold">' . __('Go pro', $this->config['plugin_slug']) . '</a>';
         // array_unshift($links, $premium);
 
         return $links;

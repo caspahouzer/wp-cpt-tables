@@ -12,8 +12,6 @@ class QueryFilters
      */
     private $config;
 
-    private $post_types = [];
-
     private $custom_table = [];
 
     /**
@@ -24,12 +22,8 @@ class QueryFilters
      */
     public function __construct(Db $db, array $config)
     {
-        global $wpdb;
-
         $this->db = $db;
         $this->config = $config;
-
-        $this->post_types = get_option($this->config['tables_enabled'], []);
 
         $migrateRunning = get_option('cpt_tables:migrate_running', false);
 
@@ -49,8 +43,6 @@ class QueryFilters
      */
     public function updateQueryTables(string $query): string
     {
-        global $wpdb;
-
         $table = $this->determineTable($query);
         $this->custom_table = $table;
 
@@ -92,7 +84,7 @@ class QueryFilters
 
     public function getPostTypeFromRequest(string $query)
     {
-        preg_match("/`?post_type`?\s*=\s*'([a-zA-Z]*)'/", $query, $postType);
+        preg_match("/`?post_type`?\s*=\s*'([a-zA-Z_]*)'/", $query, $postType);
 
         if ($postType = array_pop($postType)) {
             if (isset($_GET['post_type']) && $_GET['post_type'] == $postType) {
@@ -109,7 +101,7 @@ class QueryFilters
      */
     public function getPostTypeFromQuery(string $query)
     {
-        preg_match("/`?post_type`?\s*=\s*'([a-zA-Z]*)'/", $query, $postType);
+        preg_match("/`?post_type`?\s*=\s*'([a-zA-Z_]*)'/", $query, $postType);
 
         if ($postType = array_pop($postType)) {
             return $postType;
@@ -172,7 +164,6 @@ class QueryFilters
      */
     public function getPostTypeById($ids): ?string
     {
-        global $wpdb;
         $key = __METHOD__ . $ids;
 
         if (!$cached = wp_cache_get($key)) {

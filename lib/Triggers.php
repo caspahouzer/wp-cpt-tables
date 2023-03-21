@@ -147,8 +147,6 @@ class Triggers
      */
     private function insertMetaTrigger(array $tables)
     {
-        global $wpdb;
-
         if (!$tables) {
             return;
         }
