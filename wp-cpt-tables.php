@@ -30,6 +30,7 @@ foreach ($includes as $include) {
 }
 
 $core = new Core(new Db());
+$core->initConfig();
 
 register_activation_hook(__FILE__, [$core, 'activate']);
 register_deactivation_hook(__FILE__, [$core, 'deactivate']);

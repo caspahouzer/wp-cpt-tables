@@ -24,10 +24,14 @@ class Core
 
     public function __construct()
     {
-        global $wpdb;
-
         $this->db = new Db;
 
+        $this->initConfig();
+    }
+
+    public function initConfig()
+    {
+        global $wpdb;
         $this->config = [
             'post_types' => array_map(function ($postType) {
                 return esc_html($postType);
