@@ -57,8 +57,6 @@ The plugin can be found it the WordPress Plugin Directory. Search for "Custom Po
 
 ## Contribute
 
-Developed with ♥ by [Sebastian](https://lightapps.de).
+Developed with ♥ by [me](https://lightapps.de).
 
 This plugin was initially created for own usage to get a big database cleaner.
-
-Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) and submit pull requests or open issues
