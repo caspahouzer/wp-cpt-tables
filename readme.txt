@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.1.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -25,9 +25,10 @@ Moreover, outsourcing custom post types to separate tables can also help improve
 Overall, outsourcing WordPress custom post types to separate tables offers a range of benefits for your website. It can improve the organization and management of your content, optimize the performance of your website, and increase your security. If you want to take your website to the next level, you should consider outsourcing your custom post types to separate tables!
 
 = Works with =
-* Multisite
+* Multisite Installations
 * Woocommerce
 * YOAST etc.
+* Advanced Custom Fields
 
 = Settings =
 

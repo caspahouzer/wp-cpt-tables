@@ -16,9 +16,10 @@ Overall, outsourcing WordPress custom post types to separate tables offers a ran
 
 ## Works with
 
--   Multisite
+-   Multisite Installations
 -   Woocommerce
 -   YOAST etc.
+-   Advanced Custom Fields
 
 ## Settings
 

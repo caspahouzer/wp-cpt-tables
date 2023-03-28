@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="inside">
                                     <p>As soon as you select a Custom Post Type, a new table is created in the database. This newly created table will be used for all entries of this custom post type.</p>
-                                    <p>When you migrate the existing entries, the data from the old table is copied to the new table. </p>
+                                    <p>When you migrate the existing entries, the data from the old table is moved to the new table. </p>
                                     <p><strong>Backup</strong><br />This plugin modifies your WordPress database. Backup your database before migrating in case something doesn't work as you expect.</p>
                                 </div>
                             </div>
@@ -114,11 +114,11 @@
                                                 else : $bgcolor = 'white';
                                                 endif; ?>
                                                 <tr style="background-color:<?php echo esc_attr($bgcolor); ?>">
-                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug"><?php echo esc_attr($migrate['slug']); ?></span></td>
+                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug">Name: <?php echo esc_attr($migrate['slug']); ?></span></td>
                                                     <td><?php echo esc_attr($migrate['table']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count_meta']); ?></td>
-                                                    <td style="text-align:right"><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=migrate&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small">Migrate</a></td>
+                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=migrate&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small migrate-button">Migrate</a></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -159,11 +159,11 @@
                                                 else : $bgcolor = 'white';
                                                 endif; ?>
                                                 <tr style="background-color:<?php echo $bgcolor; ?>">
-                                                    <td><?php echo $migrate['name'] ?><br /><span class="slug"><?php echo $migrate['slug'] ?></span></td>
+                                                    <td><?php echo $migrate['name'] ?><br /><span class="slug">Name: <?php echo $migrate['slug'] ?></span></td>
                                                     <td><?php echo $migrate['table'] ?></td>
                                                     <td class="center"><?php echo $migrate['count'] ?></td>
                                                     <td class="center"><?php echo $migrate['count_meta'] ?></td>
-                                                    <td style="text-align:right"><a href="<?php echo admin_url('options-general.php?page=' . $this->config['plugin_slug'] . '&action=revert&type=' . $migrate['slug'], false); ?>" class="button button-small">Revert</a></td>
+                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . $this->config['plugin_slug'] . '&action=revert&type=' . $migrate['slug'], false); ?>" class="button button-small revert-button">Revert</a></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

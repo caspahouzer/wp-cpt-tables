@@ -285,6 +285,7 @@ class WPCPT_Tables_SettingsPage
                 $entries[] = [
                     'slug' => $postType['slug'],
                     'name' => $postType['name'],
+                    'original_table' => $wpdb->prefix . 'posts',
                     'table' => $table,
                     'count' => $this->helper->getCount($wpdb->prefix . 'posts', $postType['slug']),
                     'count_meta' => $this->helper->getCount($wpdb->prefix . 'postmeta', $postType['slug']),
@@ -302,6 +303,8 @@ class WPCPT_Tables_SettingsPage
      */
     public function getMigrated()
     {
+        global $wpdb;
+
         $postTypes = $this->getAllPostTypes();
         $enabled = $this->getEnabledPostTypes();
 
@@ -314,6 +317,7 @@ class WPCPT_Tables_SettingsPage
                 $entries[] = [
                     'slug' => $postType['slug'],
                     'name' => $postType['name'],
+                    'original_table' => $wpdb->prefix . 'posts',
                     'table' => $table,
                     'count' => $this->helper->getCount($table),
                     'table_meta' => $table . '_meta',
