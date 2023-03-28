@@ -1,6 +1,6 @@
 <?php
 
-class Notices
+class WPCPT_Tables_Notices
 {
 
     /**
@@ -64,8 +64,8 @@ class Notices
         foreach ($notices as $notice) {
             printf(
                 '<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>',
-                $notice['type'],
-                $notice['dismissible'],
+                esc_attr($notice['type']),
+                esc_attr($notice['dismissible']),
                 $notice['notice']
             );
         }

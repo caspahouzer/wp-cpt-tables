@@ -1,6 +1,6 @@
 <?php
 
-class AdminFilters
+class WPCPT_Tables_AdminFilters
 {
     /**
      * Bind the method that updates the admin redirect url to the admin_url

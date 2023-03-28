@@ -1,6 +1,6 @@
 <?php
 
-class Db
+class WPCPT_Tables_Db
 {
     /**
      * @var object wpdb

@@ -1,10 +1,10 @@
 <?php
 
 
-class Table
+class WPCPT_Tables_Table
 {
     /**
-     * @var Db
+     * @var WPCPT_Tables_Db
      */
     private $db;
 
@@ -15,19 +15,19 @@ class Table
 
     /**
      * The notices class
-     * @var Notices
+     * @var WPCPT_Tables_Notices
      */
     private $notices;
 
     /**
      * Triggers the create methods for tables
-     * @param Db     $db
+     * @param WPCPT_Tables_Db     $db
      * @param array  $config
      * @param string $table
      */
-    public function __construct(Db $db, array $config)
+    public function __construct(WPCPT_Tables_Db $db, array $config)
     {
-        $this->notices = new Notices();
+        $this->notices = new WPCPT_Tables_Notices();
 
         $this->db = $db;
         $this->config = $config;

@@ -1,9 +1,9 @@
 <?php
 
-class QueryFilters
+class WPCPT_Tables_QueryFilters
 {
     /**
-     * @var Db
+     * @var WPCPT_Tables_Db
      */
     private $db;
 
@@ -20,7 +20,7 @@ class QueryFilters
      * @param Db    $db
      * @param array $config
      */
-    public function __construct(Db $db, array $config)
+    public function __construct(WPCPT_Tables_Db $db, array $config)
     {
         $this->db = $db;
         $this->config = $config;

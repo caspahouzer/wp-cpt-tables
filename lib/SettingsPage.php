@@ -5,7 +5,7 @@ if (!function_exists('get_plugins') || !function_exists('is_plugin_active')) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
-class SettingsPage
+class WPCPT_Tables_SettingsPage
 {
     /**
      * The menu and page name for this settings page
@@ -21,25 +21,25 @@ class SettingsPage
 
     /**
      * The table class
-     * @var Table
+     * @var WPCPT_Tables_Table
      */
     private $table;
 
     /**
      * The triggers class
-     * @var Triggers
+     * @var WPCPT_Tables_Triggers
      */
     private $triggers;
 
     /**
      * The notices class
-     * @var Notices
+     * @var WPCPT_Tables_Notices
      */
     private $notices;
 
     /**
      * The helper class
-     * @var Helper
+     * @var WPCPT_Tables_Helper
      */
     private $helper;
 
@@ -69,14 +69,14 @@ class SettingsPage
     /**
      * Add settings page. If form has been submitted, route to save method.
      *
-     * @param Table   $table
-     * @param Triggers $triggers
+     * @param WPCPT_Tables_Table   $table
+     * @param WPCPT_Tables_Triggers $triggers
      */
-    public function __construct(Table $table, Triggers $triggers, $config)
+    public function __construct(WPCPT_Tables_Table $table, WPCPT_Tables_Triggers $triggers, $config)
     {
         // $this->enqueue_styles();
-        $this->notices = new Notices;
-        $this->helper = new Helper;
+        $this->notices = new WPCPT_Tables_Notices;
+        $this->helper = new WPCPT_Tables_Helper;
 
         $this->config = $config;
 
@@ -127,7 +127,6 @@ class SettingsPage
 
         $postTypes = $this->getAllPostTypes();
         $unpublicPostTypes = $this->getAllPostTypes(false);
-        error_log(print_r($unpublicPostTypes, true));
         $enabled = $this->getEnabledPostTypes();
         $settingsClass = $this;
 
@@ -142,10 +141,13 @@ class SettingsPage
     private function startRevertCustomPostType($postType)
     {
         $enabledPostTypes = $this->getEnabledPostTypes();
+        error_log(print_r($enabledPostTypes, true));
         if (($key = array_search($postType, $enabledPostTypes)) !== false) {
             unset($enabledPostTypes[$key]);
-            update_option($this->config['tables_enabled'], array_values($enabledPostTypes), true);
+            $enabledPostTypes = array_values($enabledPostTypes);
+            update_option($this->config['tables_enabled'], $enabledPostTypes, true);
         }
+        error_log(print_r($enabledPostTypes, true));
 
         $this->triggers->create($enabledPostTypes);
 
@@ -158,13 +160,18 @@ class SettingsPage
     }
 
     /**
-     * Revert the custom post type
+     * Revert the custom post types
      *
      * @return array
      */
-    private function revertCustomPostType($postType)
+    private function revertCustomPostType($postTypes)
     {
-        $this->table->revert($postType);
+        if (!is_array($postTypes)) {
+            $postTypes = [$postTypes];
+        }
+        foreach ($postTypes as $postType) {
+            $this->table->revert($postType);
+        }
     }
 
     /**
@@ -191,6 +198,13 @@ class SettingsPage
         wp_safe_redirect($this->redirect_uri);
     }
 
+    /**
+     * Migrate all existing custom post types to the new tables
+     * 
+     * @param  string|array  $newPostTypes
+     *
+     * @return array
+     */
     private function migrateCustomPostTypes($newPostTypes)
     {
         if (!is_array($newPostTypes)) {

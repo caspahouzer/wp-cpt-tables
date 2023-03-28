@@ -1,14 +1,18 @@
 <?php
 
-class Helper
+class WPCPT_Tables_Helper
 {
+    /**
+     * @var WPCPT_Tables_Db
+     */
     private $db;
+
     /**
      * @return void
      */
     public function __construct()
     {
-        $this->db = new Db;
+        $this->db = new WPCPT_Tables_Db;
     }
 
     /**

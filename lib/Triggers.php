@@ -1,9 +1,9 @@
 <?php
 
-class Triggers
+class WPCPT_Tables_Triggers
 {
     /**
-     * @var Db
+     * @var WPCPT_Tables_Db
      */
     private $db;
 
@@ -35,10 +35,10 @@ class Triggers
     /**
      * Triggers the methods that create the post and post meta triggers
      *
-     * @param Db    $db
+     * @param WPCPT_Tables_Db    $db
      * @param array $config
      */
-    public function __construct(Db $db, array $config)
+    public function __construct(WPCPT_Tables_Db $db, array $config)
     {
         $this->db = $db;
         $this->config = $config;
