@@ -66,7 +66,7 @@ class WPCPT_Tables_Notices
                 '<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>',
                 esc_attr($notice['type']),
                 esc_attr($notice['dismissible']),
-                $notice['notice']
+                wp_kses_post($notice['notice'])
             );
         }
 

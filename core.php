@@ -51,9 +51,9 @@ class WPCPT_Tables_Core
     {
         $self = new self();
 
-        add_filter('plugin_action_links_wp-cpt-tables/wp-cpt-tables.php', [$this, 'add_action_links'], 10, 2);
-        add_filter('network_admin_plugin_action_links_wp-cpt-tables/wp-cpt-tables.php', [$this, 'add_action_links_network'], 10, 2);
-        add_filter('plugin_row_meta', array($this, 'filter_plugin_row_meta'), 10, 2);
+        add_filter('plugin_action_links_wp-cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinks'], 10, 2);
+        add_filter('network_admin_plugin_action_links_wp-cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
+        add_filter('plugin_row_meta', array($this, 'filterPluginRowMeta'), 10, 2);
 
         $self->setupAdminFilters();
         $self->setupQueryFilters();
@@ -98,6 +98,9 @@ class WPCPT_Tables_Core
         );
     }
 
+    /**
+     * @return void
+     */
     private function setupHelper()
     {
         new WPCPT_Tables_Helper;
@@ -120,23 +123,13 @@ class WPCPT_Tables_Core
     }
 
     /**
-     * Gets the option that stores enabled post type tables and unserializes it
-     * 
-     * @return array
-     */
-    private function getEnabledPostTypes(): array
-    {
-        return array_values(get_option($this->config['tables_enabled'], []));
-    }
-
-    /**
      * Filters the array of row meta for each plugin in the Plugins list table.
      *
-     * @param string[] $plugin_meta An array of the plugin's metadata.
+     * @param array $plugin_meta An array of the plugin's metadata.
      * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
-     * @return string[] An array of the plugin's metadata.
+     * @return array An array of the plugin's metadata.
      */
-    public function filter_plugin_row_meta(array $plugin_meta, $plugin_file)
+    public function filterPluginRowMeta(array $plugin_meta, $plugin_file): array
     {
         if ('wp-cpt-tables/wp-cpt-tables.php' !== $plugin_file) {
             return $plugin_meta;
@@ -145,7 +138,7 @@ class WPCPT_Tables_Core
         $plugin_meta[] = sprintf(
             '<a href="%1$s" target="_blank"><span class="dashicons dashicons-star-filled" aria-hidden="true" style="font-size:14px;line-height:1.3"></span>%2$s</a>',
             'https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA',
-            esc_html_x('Sponsor', 'verb', 'query-monitor')
+            esc_html_x('Buy me a coffee', 'verb', 'wp-cpt-tables')
         );
 
         return $plugin_meta;
@@ -156,7 +149,7 @@ class WPCPT_Tables_Core
      * @param string $file
      * @return array
      */
-    public function add_action_links($links, $file)
+    public function addActionLinks($links, $file)
     {
         $settings = '<a href="' . admin_url('options-general.php?page=' . $this->config['plugin_slug']) . '">' . __('Settings') . '</a>';
         array_unshift($links, $settings);
@@ -172,7 +165,7 @@ class WPCPT_Tables_Core
      * @param string $file
      * @return array
      */
-    public function add_action_links_network($links, $file)
+    public function addActionLinksNetwork($links, $file)
     {
         $settings = '<a href="' . admin_url('options-general.php?page=' . $this->config['plugin_slug']) . '">' . __('Settings') . '</a>';
         array_unshift($links, $settings);

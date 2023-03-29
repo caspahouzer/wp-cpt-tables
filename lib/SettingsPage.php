@@ -71,8 +71,10 @@ class WPCPT_Tables_SettingsPage
      *
      * @param WPCPT_Tables_Table   $table
      * @param WPCPT_Tables_Triggers $triggers
+     * @param array $config
+     * @return void
      */
-    public function __construct(WPCPT_Tables_Table $table, WPCPT_Tables_Triggers $triggers, $config)
+    public function __construct(WPCPT_Tables_Table $table, WPCPT_Tables_Triggers $triggers, array $config)
     {
         // $this->enqueue_styles();
         $this->notices = new WPCPT_Tables_Notices;
@@ -85,13 +87,13 @@ class WPCPT_Tables_SettingsPage
 
         $this->redirect_uri = admin_url('options-general.php?page=' . $this->config['plugin_slug']);
 
-        if (isset($_GET['action']) && $_GET['action'] == 'migrate' && isset($_GET['type'])) {
-            $this->startMigrateCustomPostType($_GET['type']);
+        if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'migrate' && isset($_GET['type'])) {
+            $this->startMigrateCustomPostType(sanitize_key($_GET['type']));
             exit;
         }
 
-        if (isset($_GET['action']) && $_GET['action'] == 'revert' && isset($_GET['type'])) {
-            $this->startRevertCustomPostType($_GET['type']);
+        if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'revert' && isset($_GET['type'])) {
+            $this->startRevertCustomPostType(sanitize_key($_GET['type']));
             exit;
         }
 
@@ -100,6 +102,8 @@ class WPCPT_Tables_SettingsPage
 
     /**
      * Add settings page to admin settings menu
+     * 
+     * @return void
      */
     public function addSettingsPage()
     {
@@ -141,13 +145,11 @@ class WPCPT_Tables_SettingsPage
     private function startRevertCustomPostType($postType)
     {
         $enabledPostTypes = $this->getEnabledPostTypes();
-        error_log(print_r($enabledPostTypes, true));
         if (($key = array_search($postType, $enabledPostTypes)) !== false) {
             unset($enabledPostTypes[$key]);
             $enabledPostTypes = array_values($enabledPostTypes);
             update_option($this->config['tables_enabled'], $enabledPostTypes, true);
         }
-        error_log(print_r($enabledPostTypes, true));
 
         $this->triggers->create($enabledPostTypes);
 
@@ -179,11 +181,11 @@ class WPCPT_Tables_SettingsPage
      *
      * @return array
      */
-    private function startMigrateCustomPostType($postType)
+    private function startMigrateCustomPostType(string $postType)
     {
         $enabledPostTypes = $this->getEnabledPostTypes();
         if (!in_array($postType, $enabledPostTypes)) {
-            $enabledPostTypes[] = $postType;
+            $enabledPostTypes[] = esc_attr($postType);
             update_option($this->config['tables_enabled'], array_values($enabledPostTypes), true);
         }
 

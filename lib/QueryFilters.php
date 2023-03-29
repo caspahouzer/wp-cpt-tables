@@ -87,7 +87,7 @@ class WPCPT_Tables_QueryFilters
         preg_match("/`?post_type`?\s*=\s*'([a-zA-Z_]*)'/", $query, $postType);
 
         if ($postType = array_pop($postType)) {
-            if (isset($_GET['post_type']) && $_GET['post_type'] == $postType) {
+            if (isset($_GET['post_type']) && sanitize_key($_GET['post_type']) == $postType) {
                 return $postType;
             }
         }
@@ -162,7 +162,7 @@ class WPCPT_Tables_QueryFilters
      * @param  string $ids
      * @return string
      */
-    public function getPostTypeById($ids): ?string
+    public function getPostTypeById(string $ids): ?string
     {
         $key = __METHOD__ . $ids;
 

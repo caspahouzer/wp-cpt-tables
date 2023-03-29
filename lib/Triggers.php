@@ -68,8 +68,6 @@ class WPCPT_Tables_Triggers
      */
     public function deleteAllTrigger(array $tables)
     {
-        global $wpdb;
-
         $this->db->value("DROP TRIGGER IF EXISTS " . $this->db->escape($this->config['prefix'] . $this->insertPostTrigger));
         $this->db->value("DROP TRIGGER IF EXISTS " . $this->db->escape($this->config['prefix'] . $this->insertMetaTrigger));
 

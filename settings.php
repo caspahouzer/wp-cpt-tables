@@ -159,11 +159,11 @@
                                                 else : $bgcolor = 'white';
                                                 endif; ?>
                                                 <tr style="background-color:<?php echo $bgcolor; ?>">
-                                                    <td><?php echo $migrate['name'] ?><br /><span class="slug">Name: <?php echo $migrate['slug'] ?></span></td>
-                                                    <td><?php echo $migrate['table'] ?></td>
-                                                    <td class="center"><?php echo $migrate['count'] ?></td>
-                                                    <td class="center"><?php echo $migrate['count_meta'] ?></td>
-                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . $this->config['plugin_slug'] . '&action=revert&type=' . $migrate['slug'], false); ?>" class="button button-small revert-button">Revert</a></td>
+                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug">Name: <?php echo esc_attr($migrate['slug']); ?></span></td>
+                                                    <td><?php echo esc_attr($migrate['table']); ?></td>
+                                                    <td class="center"><?php echo esc_attr($migrate['count']); ?></td>
+                                                    <td class="center"><?php echo esc_attr($migrate['count_meta']); ?></td>
+                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=revert&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small revert-button">Revert</a></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

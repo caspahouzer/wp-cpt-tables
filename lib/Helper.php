@@ -19,10 +19,9 @@ class WPCPT_Tables_Helper
      * Check if plugin is installed by getting all plugins from the plugins dir
      *
      * @param $plugin_slug
-     *
      * @return bool
      */
-    public function checkPluginInstalled($plugin_slug): bool
+    public function checkPluginInstalled(string $plugin_slug): bool
     {
         $installed_plugins = get_plugins();
 
@@ -33,10 +32,9 @@ class WPCPT_Tables_Helper
      * Check if plugin is installed
      *
      * @param string $plugin_slug
-     *
      * @return bool
      */
-    public function checkPluginActive($plugin_slug): bool
+    public function checkPluginActive(string $plugin_slug): bool
     {
         if (is_plugin_active($plugin_slug)) {
             return true;
@@ -45,7 +43,15 @@ class WPCPT_Tables_Helper
         return false;
     }
 
-    public function getCount($table, $type = '')
+    /**
+     * Count the number of rows in a table
+     * 
+     * @param  string $table
+     * @param  string $type
+     * 
+     * @return int
+     */
+    public function getCount(string $table, string $type = '')
     {
         global $wpdb;
 
