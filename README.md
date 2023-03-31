@@ -49,7 +49,7 @@ The plugin can be found it the WordPress Plugin Directory. Search for "Custom Po
 
 ### Manual Installation
 
-1. Upload the entire `/wp-cpt-tables` directory to the `/wp-content/plugins/` directory.
+1. Upload the entire `/cpt-tables` directory to the `/wp-content/plugins/` directory.
 2. Activate "Custom Post Type Tables" through the 'Plugins' menu in WordPress.
 3. Do a database backup manually or use a third party tool
 4. Go to "Settings / CPT Tables"

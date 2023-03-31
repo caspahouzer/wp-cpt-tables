@@ -66,8 +66,8 @@ class WPCPT_Tables_Core
      */
     public function enqueue_scripts_styles()
     {
-        wp_enqueue_style($this->config['plugin_slug'] . '-css', plugin_dir_url(__FILE__) . 'assets/css/styles.css', [], $this->version, 'all');
-        wp_enqueue_script($this->config['plugin_slug'] . '-js', plugin_dir_url(__FILE__) . 'assets/js/scripts.js', ['jquery'], $this->version, false);
+        wp_enqueue_style($this->config['plugin_slug'] . '-css', plugin_dir_url(__FILE__) . 'css/styles.css', [], $this->version, 'all');
+        wp_enqueue_script($this->config['plugin_slug'] . '-js', plugin_dir_url(__FILE__) . 'js/scripts.js', ['jquery'], $this->version, false);
     }
 
     /**

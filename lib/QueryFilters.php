@@ -51,10 +51,6 @@ class WPCPT_Tables_QueryFilters
 
             $query = str_replace($this->config['default_post_table'], $table, $query);
             $query = str_replace($this->config['default_meta_table'], $table . '_meta', $query);
-            // error_log('-----------------');
-            // error_log($table);
-            // error_log($query);
-            // error_log('-----------------');
         }
 
         return $query;

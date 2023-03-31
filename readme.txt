@@ -2,8 +2,8 @@
 Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
-Tested up to: 6.1.1
-Stable tag: 1.0.5
+Tested up to: 6.2
+Stable tag: 1.0.8
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -58,7 +58,7 @@ The plugin can be found it the WordPress Plugin Directory. Search for "Custom Po
 
 = Manual Installation =
 
-1. Upload the entire `/wp-cpt-tables` directory to the `/wp-content/plugins/` directory.
+1. Upload the entire `/cpt-tables` directory to the `/wp-content/plugins/` directory.
 2. Activate "Custom Post Type Tables" through the 'Plugins' menu in WordPress.
 3. Do a database backup manually or use a third party tool
 4. Go to "Settings / CPT Tables"
@@ -73,6 +73,18 @@ This plugin was initially created for own usage to get a big database cleaner.
 Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) and submit pull requests or open issues
 
 == Changelog ==
+
+=== 1.0.7 ===
+
+* tested with WordPress 6.2
+
+=== 1.0.6 ===
+
+* fixed debugger warnings
+* Clean up code
+* Escape vars
+* Sanitize vars
+* Refactoring
 
 === 1.0.1 ===
 

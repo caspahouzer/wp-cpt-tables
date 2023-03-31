@@ -19,10 +19,18 @@ class WPCPT_Tables_AdminFilters
      */
     public function updateAdminUrl(string $url): string
     {
+        $post_type = '';
+
+        if (isset($_POST['post_type'])) {
+            $post_type = esc_attr($_POST['post_type']);
+        } elseif (isset($_GET['post_type'])) {
+            $post_type = esc_attr($_GET['post_type']);
+        }
+
         if ($this->isAdminPage($url)) {
             $url .= sprintf(
                 '&post_type=%s',
-                esc_attr($_POST['post_type']) ?? esc_attr($_GET['post_type']) ?? ''
+                $post_type
             );
         }
 
@@ -31,7 +39,6 @@ class WPCPT_Tables_AdminFilters
 
     /**
      * Returns true is the current page is in the Wordpress admin
-     * 
      * @param  string  $url
      * @return boolean
      */
