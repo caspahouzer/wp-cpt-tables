@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.0.8
+Stable tag: 1.0.7
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
