@@ -3,7 +3,7 @@ Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.0.7
+Stable tag: 1.0.10
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,14 @@ This plugin was initially created for own usage to get a big database cleaner.
 Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) and submit pull requests or open issues
 
 == Changelog ==
+
+=== 1.0.9 ===
+
+* Automatically remove orphaned entries in the main post table under certain conditions
+
+=== 1.0.8 ===
+
+* re-create triggers if they don't exist
 
 === 1.0.7 ===
 

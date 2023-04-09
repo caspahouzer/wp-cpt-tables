@@ -13,6 +13,26 @@ class WPCPT_Tables_Helper
     public function __construct()
     {
         $this->db = new WPCPT_Tables_Db;
+
+        // add save_post hook for every custom post type
+        $post_types = get_option('cpt_tables:tables_enabled', []);
+        foreach ($post_types as $postType) {
+            add_action('save_post_' . $postType, [$this, 'savePostAction'], 10, 3);
+        }
+    }
+
+    /**
+     * Delete the post from the main posts table
+     *
+     * @param int $post_id
+     * @param WP_Post $post
+     * @param bool $update
+     */
+    public function savePostAction(int $post_id, WP_Post $post, bool $update)
+    {
+        WPCPT_Tables_QueryFilters::$active = false;
+        wp_delete_post($post_id, true);
+        WPCPT_Tables_QueryFilters::$active = true;
     }
 
     /**

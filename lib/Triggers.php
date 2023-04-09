@@ -72,6 +72,10 @@ class WPCPT_Tables_Triggers
         $this->db->value("DROP TRIGGER IF EXISTS " . $this->db->escape($this->config['prefix'] . $this->insertMetaTrigger));
 
         foreach ($tables as $i => $postType) {
+            // if post_type does not exist, skip
+            // if (!post_type_exists($postType)) {
+            //     continue;
+            // }
             $table = $this->config['prefix'] . str_replace('-', '_', $postType);
 
             $this->db->value("DROP TRIGGER IF EXISTS " . $this->db->escape($table . '_' . $this->deletePostTrigger));

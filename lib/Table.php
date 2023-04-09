@@ -91,7 +91,7 @@ class WPCPT_Tables_Table
     {
         global $wpdb;
 
-        update_option('cpt_tables:migrate_running', true);
+        WPCPT_Tables_QueryFilters::$active = false;
 
         $custom_post_type = $table;
         $table = $this->config['prefix'] . str_replace('-', '_', $table);
@@ -152,7 +152,7 @@ class WPCPT_Tables_Table
             $successMessage .= 'Tables deleted: ' . $table . ', ' . $table . '_meta<br/>';
         }
 
-        delete_option('cpt_tables:migrate_running');
+        WPCPT_Tables_QueryFilters::$active = true;
     }
 
     /**
@@ -165,7 +165,7 @@ class WPCPT_Tables_Table
     {
         global $wpdb;
 
-        update_option('cpt_tables:migrate_running', true);
+        WPCPT_Tables_QueryFilters::$active = false;
 
         $custom_post_type = $table;
         $table = $this->config['prefix'] . str_replace('-', '_', $table);
@@ -259,7 +259,7 @@ class WPCPT_Tables_Table
             $this->db->query($query, ...$params);
         }
 
-        delete_option('cpt_tables:migrate_running');
+        WPCPT_Tables_QueryFilters::$active = true;
 
         if ($hasErrors) {
             $this->notices->add($errorMessage, 'error');

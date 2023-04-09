@@ -14,6 +14,8 @@ class WPCPT_Tables_QueryFilters
 
     private $custom_table = [];
 
+    public static $active = true;
+
     /**
      * Binds the method that changes tables in the query to the query filter
      *
@@ -25,12 +27,7 @@ class WPCPT_Tables_QueryFilters
         $this->db = $db;
         $this->config = $config;
 
-        $migrateRunning = get_option('cpt_tables:migrate_running', false);
-
-        if ($migrateRunning) {
-            return;
-        }
-
+        // Add the filter that changes the tables in the query
         add_filter('query', [$this, 'updateQueryTables']);
     }
 
@@ -43,6 +40,11 @@ class WPCPT_Tables_QueryFilters
      */
     public function updateQueryTables(string $query): string
     {
+        // Check if it has been deactivated temporarily to make changes in the main posts or postmeta table
+        if (self::$active === false) {
+            return $query;
+        }
+
         $table = $this->determineTable($query);
         $this->custom_table = $table;
 
