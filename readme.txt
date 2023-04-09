@@ -1,5 +1,5 @@
 === Custom Post Type Tables ===
-Donate link: https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA
+Donate link: https://paypal.me/klausi4711
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2

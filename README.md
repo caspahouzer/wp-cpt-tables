@@ -1,4 +1,4 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=JNA8L66BWE2AA)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/klausi4711)
 
 # Custom Post Type Tables
 
