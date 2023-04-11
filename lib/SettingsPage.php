@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Optimize.php';
+
 // Check if needed functions exists - if not, require them
 if (!function_exists('get_plugins') || !function_exists('is_plugin_active')) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -55,6 +57,8 @@ class WPCPT_Tables_SettingsPage
      */
     private $redirect_uri;
 
+    private $optimize;
+
     /**
      * The public WP post types to exclude from the settings page CPT list
      * @var array
@@ -80,6 +84,8 @@ class WPCPT_Tables_SettingsPage
         $this->notices = new WPCPT_Tables_Notices;
         $this->helper = new WPCPT_Tables_Helper;
 
+        $this->optimize = new WPCPT_Tables_Optimize();
+
         $this->config = $config;
 
         $this->table = $table;
@@ -95,6 +101,31 @@ class WPCPT_Tables_SettingsPage
         if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'revert' && isset($_GET['type'])) {
             $this->startRevertCustomPostType(sanitize_key($_GET['type']));
             exit;
+        }
+
+        if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'optimize' && isset($_GET['type'])) {
+            $type = sanitize_key($_GET['type']);
+
+            if ($type == 'uncron') {
+                wp_unschedule_event(wp_next_scheduled($this->optimize->hook_cleanup), $this->optimize->hook_cleanup);
+                wp_unschedule_event(wp_next_scheduled($this->optimize->hook_optimize), $this->optimize->hook_optimize);
+                update_option('cpt_tables:optimize', false);
+                $this->notices->add(__('Cronjobs removed', 'cpt-tables'), 'success');
+                wp_safe_redirect($this->redirect_uri);
+            }
+
+            if ($type == 'cron') {
+                $this->notices->add(__('Optimization cronjobs active', 'cpt-tables'), 'success');
+                update_option('cpt_tables:optimize', true);
+                wp_safe_redirect($this->redirect_uri);
+            }
+
+            if ($type == 'now') {
+                $this->optimize->cleanup();
+                $this->optimize->optimize();
+                $this->notices->add(__('Tables cleaned up and optimized', 'cpt-tables'), 'success');
+                wp_safe_redirect($this->redirect_uri);
+            }
         }
 
         add_filter('admin_menu', [$this, 'addSettingsPage']);
@@ -157,7 +188,7 @@ class WPCPT_Tables_SettingsPage
         $this->revertCustomPostType($postType);
 
         // Add notice and redirect
-        $this->notices->add(sprintf('Custom post type <strong>%s</strong> has been reverted to the posts table', $postType));
+        $this->notices->add(sprintf(__('Custom post type <strong>%s</strong> has been reverted to the posts table', 'cpt-tables'), $postType));
         wp_safe_redirect($this->redirect_uri);
     }
 
@@ -196,7 +227,7 @@ class WPCPT_Tables_SettingsPage
         $this->migrateCustomPostTypes($postType);
 
         // Add notice and redirect
-        $this->notices->add(sprintf('Custom post type <strong>%s</strong> has been migrated', $postType));
+        $this->notices->add(sprintf(__('Custom post type <strong>%s</strong> has been migrated', 'cpt-tables'), $postType));
         wp_safe_redirect($this->redirect_uri);
     }
 

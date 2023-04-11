@@ -8,8 +8,11 @@ if (!defined('WPINC')) {
 /**
  * Clean and optimize meta tables
  */
-class WPCPT_Cleanup_Meta_Table
+class WPCPT_Tables_Optimize
 {
+
+    public $hook_cleanup = 'wp-cpt/meta_table/cleanup';
+    public $hook_optimize = 'wp-cpt/meta_table/optimize';
 
     /** 
      * Register cronjob in wordpress system
@@ -18,18 +21,21 @@ class WPCPT_Cleanup_Meta_Table
      */
     public function __construct()
     {
-        if (!wp_next_scheduled('wp-cpt/meta_table/cleanup')) {
-            wp_schedule_event(time(), 'daily', 'wp-cpt/meta_table/cleanup');
-        }
-        // wp_unschedule_event(wp_next_scheduled('wp-cpt/meta_table/cleanup'), 'wp-cpt/meta_table/cleanup');
-
-        add_action('wp-cpt/meta_table/cleanup', [$this, 'cleanup']);
-
-        if (!wp_next_scheduled('wp-cpt/meta_table/optimize')) {
-            wp_schedule_event(time(), 'weekly', 'wp-cpt/meta_table/optimize');
+        if (get_option('cpt_tables:optimize', false) == false) {
+            return;
         }
 
-        add_action('wp-cpt/meta_table/optimize', [$this, 'optimize']);
+        if (!wp_next_scheduled($this->hook_cleanup)) {
+            wp_schedule_event(time(), 'daily', $this->hook_cleanup);
+        }
+
+        add_action($this->hook_cleanup, [$this, 'cleanup']);
+
+        if (!wp_next_scheduled($this->hook_optimize)) {
+            wp_schedule_event(time(), 'weekly', $this->hook_optimize);
+        }
+
+        add_action($this->hook_optimize, [$this, 'optimize']);
     }
 
     /**
@@ -46,10 +52,6 @@ class WPCPT_Cleanup_Meta_Table
 
         $wpdb->query('DELETE FROM ' . $wpdb->postmeta . ' WHERE meta_value = "" OR meta_value IS NULL');
         $wpdb->query('DELETE pm FROM ' . $wpdb->postmeta . ' pm LEFT JOIN ' . $wpdb->posts . ' wp ON wp.ID = pm.post_id WHERE wp.ID IS NULL;');
-        error_log('Cronjob: Database empty post meta value cleanup');
-
-        $wpdb->query('DELETE FROM ' . $wpdb->usermeta . ' WHERE meta_value = "" OR meta_value IS NULL');
-        $wpdb->query('DELETE um FROM ' . $wpdb->usermeta . ' um LEFT JOIN ' . $wpdb->users . ' u ON u.ID = um.user_id WHERE u.ID IS NULL;');
         error_log('Cronjob: Database empty post meta value cleanup');
 
         // Check for cpt-tables
@@ -71,7 +73,6 @@ class WPCPT_Cleanup_Meta_Table
         }
 
         $wpdb->query('OPTIMIZE TABLE ' . $wpdb->postmeta);
-        $wpdb->query('OPTIMIZE TABLE ' . $wpdb->usermeta);
 
         // Check for cpt-tables
         $cpt_tables = get_option('cpt_tables:tables_enabled', []);
@@ -82,5 +83,3 @@ class WPCPT_Cleanup_Meta_Table
         }
     }
 }
-
-new WPCPT_Cleanup_Meta_Table();

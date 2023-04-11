@@ -57,8 +57,8 @@ class WPCPT_Tables_Core
     {
         $self = new self();
 
-        add_filter('plugin_action_links_cpt-tables/cpt-tables.php', [$this, 'addActionLinks'], 10, 2);
-        add_filter('network_admin_plugin_action_links_cpt-tables/cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
+        add_filter('plugin_action_links_cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinks'], 10, 2);
+        add_filter('network_admin_plugin_action_links_cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
         add_filter('plugin_row_meta', array($this, 'filterPluginRowMeta'), 10, 2);
 
         $self->setupAdminFilters();
@@ -183,7 +183,7 @@ class WPCPT_Tables_Core
      */
     public function filterPluginRowMeta(array $plugin_meta, $plugin_file): array
     {
-        if ('cpt-tables/cpt-tables.php' !== $plugin_file) {
+        if ('cpt-tables/wp-cpt-tables.php' !== $plugin_file) {
             return $plugin_meta;
         }
 

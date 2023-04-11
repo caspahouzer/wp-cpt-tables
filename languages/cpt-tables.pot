@@ -1,0 +1,107 @@
+# Copyright (C) 2023 Sebastian Klaus
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: CPT Tables 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpt-tables\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-04-10T07:08:01+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: cpt-tables\n"
+
+#. Plugin Name of the plugin
+msgid "CPT Tables"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/cpt-tables/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Allow storing custom post types in their own tables in order to make querying large datasets more efficient"
+msgstr ""
+
+#. Author of the plugin
+msgid "Sebastian Klaus"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://lightapps.de"
+msgstr ""
+
+#: core.php:193
+msgctxt "verb"
+msgid "Buy me a coffee"
+msgstr ""
+
+#: lib/SettingsPage.php:113
+msgid "Cronjobs removed"
+msgstr ""
+
+#: lib/SettingsPage.php:118
+msgid "Optimization cronjobs active"
+msgstr ""
+
+#: lib/SettingsPage.php:126
+msgid "Tables cleaned up and optimized"
+msgstr ""
+
+#: lib/SettingsPage.php:191
+msgid "Custom post type <strong>%s</strong> has been reverted to the posts table"
+msgstr ""
+
+#: lib/SettingsPage.php:230
+msgid "Custom post type <strong>%s</strong> has been migrated"
+msgstr ""
+
+#: lib/Table.php:176
+msgid "Migration of <strong>%s</strong>:<br/>"
+msgstr ""
+
+#: lib/Table.php:195
+msgid "Error cleaning up the posts table before migrate"
+msgstr ""
+
+#: lib/Table.php:211
+msgid "Error copying %s rows: %s"
+msgstr ""
+
+#: lib/Table.php:214
+msgid "New %s rows copied: %s"
+msgstr ""
+
+#: lib/Table.php:232
+msgid "Error copying %s meta rows: %s"
+msgstr ""
+
+#: lib/Table.php:235
+msgid "Migration of %s completed"
+msgstr ""
+
+#: settings.php:17
+msgid "Warning: You are in a multisite environment. The settings will only be visible to a site."
+msgstr ""
+
+#: settings.php:32
+msgid "No CPT found"
+msgstr ""
+
+#: settings.php:37
+#: settings.php:45
+msgid "is installed and active but no custom post types found."
+msgstr ""
+
+#: settings.php:38
+#: settings.php:46
+msgid "Start creating your first CPT"
+msgstr ""
+
+#: settings.php:40
+#: settings.php:48
+msgid "is installed but not active."
+msgstr ""

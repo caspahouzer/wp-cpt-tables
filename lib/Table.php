@@ -173,7 +173,7 @@ class WPCPT_Tables_Table
         // be sure the target tables exists
         $this->createTables($table);
 
-        $message = 'Migration of <strong>' . $custom_post_type . '</strong>:<br/>';
+        $message = sprintf(__('Migration of <strong>%s</strong>:<br/>', 'cpt-tables'), $custom_post_type);
         $successMessage = $message;
         $errorMessage = $message;
 
@@ -192,7 +192,7 @@ class WPCPT_Tables_Table
         $this->db->query($query, ...$params);
 
         if ($wpdb->last_error || $hasErrors) {
-            $errorMessage .= 'Error cleaning up the posts table before migrate<br/>';
+            $errorMessage .= __('Error cleaning up the posts table before migrate', 'cpt-tables') . '<br/>';
             $hasErrors = true;
         }
 
@@ -208,10 +208,10 @@ class WPCPT_Tables_Table
 
         // check for errors
         if ($wpdb->last_error || $hasErrors) {
-            $errorMessage .= 'Error copying ' . $custom_post_type . ' rows: ' . $wpdb->last_error . '<br/>';
+            $errorMessage .= sprintf(__('Error copying %s rows: %s', 'cpt-tables'), $custom_post_type, $wpdb->last_error) . ' <br/>';
             $hasErrors = true;
         } else {
-            $successMessage .= 'New ' . $custom_post_type . ' rows copied: ' . $wpdb->rows_affected . '<br/>';
+            $successMessage .= sprintf(__('New %s rows copied: %s', 'cpt-tables'), $custom_post_type, $wpdb->rows_affected) . '<br/>';
         }
 
         // copy the data from wp_postmeta to the new table
@@ -229,10 +229,10 @@ class WPCPT_Tables_Table
 
         // check for errors
         if ($wpdb->last_error || $hasErrors) {
-            $errorMessage .= 'Error copying ' . $custom_post_type . ' rows: ' . $wpdb->last_error . '<br/>';
+            $errorMessage .= sprintf(__('Error copying %s meta rows: %s', 'cpt-tables'), $custom_post_type, $wpdb->last_error) . ' <br/>';
             $hasErrors = true;
         } else {
-            $successMessage .= 'New ' . $custom_post_type . ' meta rows copied: ' . $wpdb->rows_affected . '<br/>';
+            $successMessage .= sprintf(__('Migration of %s completed', 'cpt-tables'), $custom_post_type) . '<br/>';
         }
 
         // delete the data from tables if no errors
