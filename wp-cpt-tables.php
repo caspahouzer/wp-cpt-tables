@@ -4,7 +4,7 @@
  * Plugin Name:         CPT Tables
  * Plugin URI:          https://wordpress.org/plugins/cpt-tables/
  * Description:         Allow storing custom post types in their own tables in order to make querying large datasets more efficient
- * Version:             1.1.0
+ * Version:             1.2.0
  * Requires at least:   5.9
  * Requires PHP:        7.1
  * Author:              Sebastian Klaus
@@ -22,23 +22,27 @@ if (!version_compare(PHP_VERSION, '7.1', '>=')) {
     return;
 }
 
-require_once __DIR__ . '/core.php';
+if (!class_exists('WPCPT_Tables_Core')) {
+    require_once __DIR__ . '/vendor/Connector.php';
 
-$includes = glob(dirname(__FILE__) . '/lib/*.php');
-foreach ($includes as $include) {
-    require_once($include);
+    require_once __DIR__ . '/core.php';
+
+    $includes = glob(dirname(__FILE__) . '/lib/*.php');
+    foreach ($includes as $include) {
+        require_once($include);
+    }
+
+    $core = new WPCPT_Tables_Core(new WPCPT_Tables_Db());
+    $core->initConfig();
+
+    register_activation_hook(__FILE__, [$core, 'activate_plugin']);
+    register_deactivation_hook(__FILE__, [$core, 'deactivate_plugin']);
+
+    add_action('admin_enqueue_scripts', [$core, 'enqueue_scripts_styles']);
+
+    // Load the plugin filter and setup the classes
+    add_action('wp_loaded', [$core, 'load']);
+
+    // Clear enabled post types if they don't exist
+    add_action('wp_loaded', [$core, 'clearEnabledPostTypes']);
 }
-
-$core = new WPCPT_Tables_Core(new WPCPT_Tables_Db());
-$core->initConfig();
-
-register_activation_hook(__FILE__, [$core, 'activate']);
-register_deactivation_hook(__FILE__, [$core, 'deactivate']);
-
-add_action('admin_enqueue_scripts', [$core, 'enqueue_scripts_styles']);
-
-// Load the plugin filter and setup the classes
-add_action('wp_loaded', [$core, 'load']);
-
-// Clear enabled post types if they don't exist
-add_action('wp_loaded', [$core, 'clearEnabledPostTypes']);

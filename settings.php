@@ -65,19 +65,19 @@
                                 <?php $cron_installed = get_option('cpt_tables:optimize', false); ?>
                                 <div class="postbox ">
                                     <div class="postbox-header">
-                                        <h2 class="hndle ui-sortable-handle">Optimize tables</h2>
+                                        <h2 class="hndle ui-sortable-handle"><?php echo __('Optimize tables', 'cpt-tables') ?></h2>
                                     </div>
                                     <div class="inside">
-                                        <p>The use of meta tables often leaves residual data that is not needed and bloats the database.</p>
+                                        <p><?php echo __('The use of meta tables often leaves residual data that is not needed and bloats the database.', 'cpt-tables') ?></p>
                                         <?php if ($cron_installed) : ?>
-                                            <p><strong>Cronjob is installed</strong><br /><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=uncron'); ?>" class="button button-small cronjob-button">Remove Cronjob</a></p>
+                                            <p><strong><?php echo __('Cronjob is installed', 'cpt-tables') ?></strong><br /><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=uncron'); ?>" class="button button-small cronjob-button"><?php echo __('Remove Cronjob', 'cpt-tables') ?></a></p>
                                         <?php else : ?>
-                                            <p>You can install this cron job to optimize the tables at regular intervals.</p>
-                                            <p><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=cron'); ?>" class="button button-small cronjob-button">Install Cronjob</a></p>
+                                            <p><?php echo __('You can install this cron job to optimize the tables at regular intervals.', 'cpt-tables') ?></p>
+                                            <p><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=cron'); ?>" class="button button-small cronjob-button"><?php echo __('Install Cronjob', 'cpt-tables') ?></a></p>
                                         <?php endif; ?>
-                                        <p><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=now'); ?>" class="button button-small cronjob-button">Optimize now!</a></p>
+                                        <p><a href="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=optimize&type=now'); ?>" class="button button-small cronjob-button"><?php echo __('Optimize now!', 'cpt-tables') ?></a></p>
                                         <p>
-                                            <strong>Tables to optimize:</strong><br />
+                                            <strong><?php echo __('Tables to optimize', 'cpt-tables') ?>:</strong><br />
                                             postmeta,
                                             <?php echo implode(', ', array_map(function ($e) {
                                                 return $e['slug'] . '_meta';
@@ -89,24 +89,12 @@
 
                             <div class="postbox ">
                                 <div class="postbox-header">
-                                    <h2 class="hndle ui-sortable-handle">How it works</h2>
+                                    <h2 class="hndle ui-sortable-handle"><?php echo __('How it works', 'cpt-tables') ?></h2>
                                 </div>
                                 <div class="inside">
-                                    <p>As soon as you select a Custom Post Type, a new table is created in the database. This newly created table will be used for all entries of this custom post type.</p>
-                                    <p>When you migrate the existing entries, the data from the old table is moved to the new table. </p>
-                                    <p><strong>Backup</strong><br />This plugin modifies your WordPress database. Backup your database before migrating in case something doesn't work as you expect.</p>
-                                </div>
-                            </div>
-
-                            <div class="postbox ">
-                                <div class="postbox-header">
-                                    <h2 class="hndle ui-sortable-handle">Not usable CPT</h2>
-                                </div>
-                                <div class="inside">
-                                    <p>Maybe they are not public or they are reserved by the core system</p>
-                                    <p><?php echo implode(', ', array_map(function ($e) {
-                                            return $e['name'];
-                                        }, $unpublicPostTypes)); ?></p>
+                                    <p><?php echo __('As soon as you select a Custom Post Type, a new table is created in the database. This newly created table will be used for all entries of this custom post type.', 'cpt-tables') ?></p>
+                                    <p><?php echo __('When you migrate the existing entries, the data from the old table is moved to the new table.', 'cpt-tables') ?></p>
+                                    <p><strong><?php echo __('Backup', 'cpt-tables') ?></strong><br /><?php echo __('This plugin modifies your WordPress database. Backup your database before migrating in case something doesn\'t work as you expect.', 'cpt-tables') ?></p>
                                 </div>
                             </div>
 
@@ -118,20 +106,20 @@
                     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
                         <div id="cpt-stats" class="postbox cpt-stats">
                             <div class="postbox-header">
-                                <h2 class="hndle ui-sortable-handle">Custom Post Types</h2>
+                                <h2 class="hndle ui-sortable-handle"><?php echo __('Custom Post Types', 'cpt-tables') ?></h2>
                             </div>
                             <div class="inside">
                                 <?php if (count($unmigrated) == 0) : ?>
-                                    <p>All custom post types are already using custom tables.</p>
+                                    <p><?php echo __('All custom post types are already using custom tables.', 'cpt-tables') ?></p>
                                 <?php else : ?>
 
                                     <table cellspacing="0" cellpadding="10">
                                         <thead>
                                             <tr>
-                                                <th>Custom Post Type</th>
-                                                <th>New Table Name</th>
-                                                <th width="10%" class="center">Entries</th>
-                                                <th width="10%" class="center">Meta</th>
+                                                <th><?php echo __('Custom Post Type', 'cpt-tables') ?></th>
+                                                <th><?php echo __('New Table Name', 'cpt-tables') ?></th>
+                                                <th width="10%" class="center"><?php echo __('Entries', 'cpt-tables') ?></th>
+                                                <th width="10%" class="center"><?php echo __('Meta', 'cpt-tables') ?></th>
                                                 <th width="10%"></th>
                                             </tr>
                                         </thead>
@@ -141,11 +129,11 @@
                                                 else : $bgcolor = 'white';
                                                 endif; ?>
                                                 <tr style="background-color:<?php echo esc_attr($bgcolor); ?>">
-                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug">Name: <?php echo esc_attr($migrate['slug']); ?></span></td>
+                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug"><?php echo __('Name', 'cpt-tables') ?>: <?php echo esc_attr($migrate['slug']); ?></span></td>
                                                     <td><?php echo esc_attr($migrate['table']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count_meta']); ?></td>
-                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=migrate&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small migrate-button">Migrate</a></td>
+                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=migrate&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small migrate-button"><?php echo __('Migrate', 'cpt-tables') ?></a></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -161,19 +149,19 @@
                     <div id="normal-sortables" class="meta-box-sortables ui-sortable">
                         <div id="cpt-stats" class="postbox cpt-stats">
                             <div class="postbox-header">
-                                <h2 class="hndle ui-sortable-handle">Migrated Custom Post Types</h2>
+                                <h2 class="hndle ui-sortable-handle"><?php echo __('Migrated Custom Post Types', 'cpt-tables') ?></h2>
                             </div>
                             <div class="inside">
                                 <?php if (count($migrated) == 0) : ?>
-                                    <p>No custom post types have been migrated yet.</p>
+                                    <p><?php echo __('No custom post types have been migrated yet.', 'cpt-tables') ?></p>
                                 <?php else : ?>
                                     <table cellspacing="0" cellpadding="10">
                                         <thead>
                                             <tr>
-                                                <th>Custom Post Type</th>
-                                                <th>Table Name</th>
-                                                <th width="10%" class="center">Entries</th>
-                                                <th width="10%" class="center">Meta</th>
+                                                <th><?php echo __('Custom Post Type', 'cpt-tables') ?></th>
+                                                <th><?php echo __('Table Name', 'cpt-tables') ?></th>
+                                                <th width="10%" class="center"><?php echo __('Entries', 'cpt-tables') ?></th>
+                                                <th width="10%" class="center"><?php echo __('Meta', 'cpt-tables') ?></th>
                                                 <th width="10%"></th>
                                             </tr>
                                         </thead>
@@ -183,11 +171,11 @@
                                                 else : $bgcolor = 'white';
                                                 endif; ?>
                                                 <tr style="background-color:<?php echo $bgcolor; ?>">
-                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug">Name: <?php echo esc_attr($migrate['slug']); ?></span></td>
+                                                    <td><?php echo esc_attr($migrate['name']); ?><br /><span class="slug"><?php echo __('Name', 'cpt-tables') ?>: <?php echo esc_attr($migrate['slug']); ?></span></td>
                                                     <td><?php echo esc_attr($migrate['table']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count']); ?></td>
                                                     <td class="center"><?php echo esc_attr($migrate['count_meta']); ?></td>
-                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=revert&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small revert-button">Revert</a></td>
+                                                    <td style="text-align:right"><a href="#" data-url="<?php echo admin_url('options-general.php?page=' . esc_attr($this->config['plugin_slug']) . '&action=revert&type=' . esc_attr($migrate['slug']), false); ?>" class="button button-small revert-button"><?php echo __('Revert', 'cpt-tables') ?></a></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

@@ -3,7 +3,7 @@ Donate link: https://paypal.me/klausi4711
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -29,6 +29,7 @@ Overall, outsourcing WordPress custom post types to separate tables offers a ran
 * Woocommerce
 * YOAST etc.
 * Advanced Custom Fields
+* … and all other registered active custom post types
 
 = Settings =
 
@@ -74,10 +75,14 @@ Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) 
 
 == Changelog ==
 
+=== 1.2.0 ===
+
+* Refactoring and bugfixing
+
 === 1.1.0 ===
 
-* Load plugin when all plugins and themes are loaded to get all activated post types
-* clear orphaned post_types from activated entries
+* Initiate plugin when all plugins and themes are loaded to get all activated post types
+* Clear orphaned post_types from activated entries
 * You can activate a cronjob for table optimization in the settings
 
 === 1.0.9 ===
@@ -86,7 +91,7 @@ Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) 
 
 === 1.0.8 ===
 
-* re-create triggers if they don't exist
+* Re-create triggers if they don't exist
 
 === 1.0.7 ===
 
@@ -94,7 +99,7 @@ Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) 
 
 === 1.0.6 ===
 
-* fixed debugger warnings
+* Fixed debugger warnings
 * Clean up code
 * Escape vars
 * Sanitize vars

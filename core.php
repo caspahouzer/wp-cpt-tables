@@ -18,9 +18,14 @@ class WPCPT_Tables_Core
     private $helper;
 
     /**
+     * @var LightApps_Connector
+     */
+    private $connector;
+
+    /**
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '';
 
     /**
      * The plugin constructor
@@ -48,6 +53,10 @@ class WPCPT_Tables_Core
             'default_post_table' => $wpdb->prefix . 'posts',
             'default_meta_table' => $wpdb->prefix . 'postmeta',
         ];
+
+        $plugin_data = get_plugin_data(dirname(__FILE__) . '/wp-cpt-tables.php');
+        $this->version = $plugin_data['Version'];
+        $this->config['version'] = $this->version;
     }
 
     /**
@@ -61,14 +70,28 @@ class WPCPT_Tables_Core
         add_filter('network_admin_plugin_action_links_cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
         add_filter('plugin_row_meta', array($this, 'filterPluginRowMeta'), 10, 2);
 
+        $self->setupConnector();
         $self->setupAdminFilters();
         $self->setupQueryFilters();
-        $self->setupSettingsPage();
+        $self->setupSettings();
         $self->setupHelper();
+        $self->checkVersion();
 
         // Check for triggers on existing cpt tables
         if (count($this->config['post_types']) > 0) {
             $self->checkExistingTriggers();
+        }
+    }
+
+    /**
+     * Check the new version
+     */
+    private function checkVersion()
+    {
+        $version = get_option('cpt_tables:version', '0.0.0');
+        if (version_compare($version, $this->version, '<')) {
+            // $this->connector->trigger();
+            // update_option('cpt_tables:version', $this->version);
         }
     }
 
@@ -122,6 +145,12 @@ class WPCPT_Tables_Core
         wp_enqueue_script($this->config['plugin_slug'] . '-js', plugin_dir_url(__FILE__) . 'js/scripts.js', ['jquery'], $this->version, false);
     }
 
+    private function setupConnector()
+    {
+        $plugin_data = get_plugin_data(dirname(__FILE__) . '/wp-cpt-tables.php');
+        $this->connector = new LightApps_Connector($plugin_data, $this->config);
+    }
+
     /**
      * @return void
      */
@@ -141,9 +170,9 @@ class WPCPT_Tables_Core
     /**
      * @return void
      */
-    private function setupSettingsPage()
+    private function setupSettings()
     {
-        new WPCPT_Tables_SettingsPage(
+        new WPCPT_Tables_Settings(
             new WPCPT_Tables_Table($this->db, $this->config),
             new WPCPT_Tables_Triggers($this->db, $this->config),
             $this->config
@@ -161,18 +190,27 @@ class WPCPT_Tables_Core
     /**
      * @return void
      */
-    public function activate()
+    public function activate_plugin()
     {
+        register_uninstall_hook(__FILE__, [$this, 'delete_plugin']);
+        $this->connector->trigger();
         flush_rewrite_rules();
     }
 
     /**
      * @return void
      */
-    public function deactivate()
+    public function deactivate_plugin()
     {
+        $this->connector->deactivate();
         flush_rewrite_rules();
     }
+
+    public function delete_plugin()
+    {
+        $this->connector->trigger();
+    }
+
 
     /**
      * Filters the array of row meta for each plugin in the Plugins list table.

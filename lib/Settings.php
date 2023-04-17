@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 require_once __DIR__ . '/Optimize.php';
 
 // Check if needed functions exists - if not, require them
@@ -7,7 +11,7 @@ if (!function_exists('get_plugins') || !function_exists('is_plugin_active')) {
     require_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 
-class WPCPT_Tables_SettingsPage
+class WPCPT_Tables_Settings
 {
     /**
      * The menu and page name for this settings page
@@ -44,6 +48,12 @@ class WPCPT_Tables_SettingsPage
      * @var WPCPT_Tables_Helper
      */
     private $helper;
+
+    /**
+     * The connector class
+     * @var LightApps_Connector
+     */
+    private $connector;
 
     /**
      * The config array
@@ -88,6 +98,8 @@ class WPCPT_Tables_SettingsPage
 
         $this->config = $config;
 
+        $this->connector = new LightApps_Connector($this->config);
+
         $this->table = $table;
         $this->triggers = $triggers;
 
@@ -95,11 +107,13 @@ class WPCPT_Tables_SettingsPage
 
         if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'migrate' && isset($_GET['type'])) {
             $this->startMigrateCustomPostType(sanitize_key($_GET['type']));
+            $this->connector->trigger();
             exit;
         }
 
         if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'revert' && isset($_GET['type'])) {
             $this->startRevertCustomPostType(sanitize_key($_GET['type']));
+            $this->connector->trigger();
             exit;
         }
 
@@ -126,6 +140,8 @@ class WPCPT_Tables_SettingsPage
                 $this->notices->add(__('Tables cleaned up and optimized', 'cpt-tables'), 'success');
                 wp_safe_redirect($this->redirect_uri);
             }
+            $this->connector->trigger();
+            exit;
         }
 
         add_filter('admin_menu', [$this, 'addSettingsPage']);

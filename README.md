@@ -20,6 +20,7 @@ Overall, outsourcing WordPress custom post types to separate tables offers a ran
 -   Woocommerce
 -   YOAST etc.
 -   Advanced Custom Fields
+-   … and all other registered active custom post types
 
 ## Settings
 
