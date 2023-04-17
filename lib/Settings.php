@@ -107,13 +107,13 @@ class WPCPT_Tables_Settings
 
         if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'migrate' && isset($_GET['type'])) {
             $this->startMigrateCustomPostType(sanitize_key($_GET['type']));
-            $this->connector->trigger();
+            $this->helper->triggerConnector();
             exit;
         }
 
         if (isset($_GET['action']) && sanitize_key($_GET['action']) == 'revert' && isset($_GET['type'])) {
             $this->startRevertCustomPostType(sanitize_key($_GET['type']));
-            $this->connector->trigger();
+            $this->helper->triggerConnector();
             exit;
         }
 
@@ -140,7 +140,7 @@ class WPCPT_Tables_Settings
                 $this->notices->add(__('Tables cleaned up and optimized', 'cpt-tables'), 'success');
                 wp_safe_redirect($this->redirect_uri);
             }
-            $this->connector->trigger();
+            $this->helper->triggerConnector();
             exit;
         }
 

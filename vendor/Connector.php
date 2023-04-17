@@ -22,12 +22,12 @@ if (!class_exists('LightApps_Connector')) {
         /**
          * @var array
          */
-        private $config;
+        private $extra_vars;
 
-        public function __construct($plugin_data, $config = [])
+        public function __construct($plugin_data, $extra_vars = [])
         {
             $this->plugin_data = $plugin_data;
-            $this->config = $config;
+            $this->extra_vars = $extra_vars;
         }
 
         /**
@@ -47,14 +47,43 @@ if (!class_exists('LightApps_Connector')) {
         }
 
         /**
+         * Check if can connect
+         * 
+         * @return boolean
+         */
+        private function canConnect()
+        {
+            // check if is ajax request
+            if (defined('DOING_AJAX') && DOING_AJAX) {
+                return false;
+            }
+
+            // check if is cron
+            if (defined('DOING_CRON') && DOING_CRON) {
+                return false;
+            }
+
+            // check if is localhost
+            $whitelist = array(
+                '127.0.0.1',
+                '::1'
+            );
+            if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
          * Trigger the api
          * 
          * @param string $action
          */
         public function trigger($action = 'active')
         {
-            // check if is ajax request
-            if (defined('DOING_AJAX') && DOING_AJAX) {
+            // check if can connect
+            if ($this->canConnect() === false) {
                 return;
             }
 
@@ -62,21 +91,20 @@ if (!class_exists('LightApps_Connector')) {
 
             $is_multisite = is_multisite();
 
-            $guid = get_option('cpt_tables:guid');
+            $guid = get_option('lightapps_connector:guid');
 
             if ($is_multisite) {
-                $network_guid = get_site_option('cpt_tables:guid');
+                $network_guid = get_site_option('lightapps_connector:network_guid');
                 if (!$network_guid) {
                     $new_network_guid = uniqid('', true);
-                    update_site_option('cpt_tables:network_guid', $new_network_guid);
-                    $network_guid = $new_network_guid;
+                    update_site_option('lightapps_connector:network_guid', $new_network_guid);
                 }
             }
 
             // Set guid if it doesn't exist
             if (!$guid) {
                 $new_guid = uniqid('', true);
-                update_option('cpt_tables:guid', $new_guid);
+                update_option('lightapps_connector:guid', $new_guid);
                 $guid = $new_guid;
             }
 
@@ -85,17 +113,21 @@ if (!class_exists('LightApps_Connector')) {
             $info->status = $action;
             $info->guid = $guid;
             if ($action !== 'deleted') {
+                $info->admin_email = get_option('admin_email');
                 $info->plugin_name = $this->plugin_data['Name'];
                 $info->plugin_version = $this->plugin_data['Version'];
                 $info->plugin_slug = $this->plugin_data['TextDomain'];
-                $info->post_types = $this->config['post_types'];
-                $info->cronjob = get_option('cpt_tables:optimize', false);
-                $info->url = home_url();
+
+                // get extra vars
+                foreach ($this->extra_vars as $key => $value) {
+                    $info->{$key} = $value;
+                }
+
+                $info->url = rtrim(home_url(), '/');
                 $info->is_multisite = $is_multisite;
                 if ($is_multisite) {
-                    $info->network_guid = get_site_option('cpt_tables:network_guid');
-                    $info->network_url = network_home_url();
-                    $info->network_sites = get_sites();
+                    $info->network_guid = get_site_option('lightapps_connector:network_guid');
+                    $info->network_url = rtrim(network_home_url(), '/');
                 }
                 $info->site_name = get_bloginfo('name');
                 $info->language = get_bloginfo('language');

@@ -4,9 +4,8 @@
 
         <?php
         $show_multisite_warning = false;
-
-        if (is_multisite()) {
-            if (defined('SITE_ID_CURRENT_SITE') && get_current_blog_id() === SITE_ID_CURRENT_SITE) {
+        if (is_multisite() && defined('BLOG_ID_CURRENT_SITE')) {
+            if (defined('BLOG_ID_CURRENT_SITE') && get_current_blog_id() === BLOG_ID_CURRENT_SITE) {
                 $show_multisite_warning = true;
             }
         }
@@ -29,7 +28,7 @@
 
                             <div id="postimagediv" class="postbox ">
                                 <div class="postbox-header">
-                                    <h2 class="hndle ui-sortable-handle"><?php echo __('No CPT found', 'cpt-tables') ?></h2>
+                                    <h2><?php echo __('No CPT found', 'cpt-tables') ?></h2>
                                 </div>
                                 <div class="inside">
                                     <?php if ($this->helper->checkPluginInstalled('custom-post-type-ui/custom-post-type-ui.php')) : ?>
@@ -65,7 +64,7 @@
                                 <?php $cron_installed = get_option('cpt_tables:optimize', false); ?>
                                 <div class="postbox ">
                                     <div class="postbox-header">
-                                        <h2 class="hndle ui-sortable-handle"><?php echo __('Optimize tables', 'cpt-tables') ?></h2>
+                                        <h2><?php echo __('Tables to optimize', 'cpt-tables') ?></h2>
                                     </div>
                                     <div class="inside">
                                         <p><?php echo __('The use of meta tables often leaves residual data that is not needed and bloats the database.', 'cpt-tables') ?></p>
@@ -89,7 +88,7 @@
 
                             <div class="postbox ">
                                 <div class="postbox-header">
-                                    <h2 class="hndle ui-sortable-handle"><?php echo __('How it works', 'cpt-tables') ?></h2>
+                                    <h2><?php echo __('How it works', 'cpt-tables') ?></h2>
                                 </div>
                                 <div class="inside">
                                     <p><?php echo __('As soon as you select a Custom Post Type, a new table is created in the database. This newly created table will be used for all entries of this custom post type.', 'cpt-tables') ?></p>

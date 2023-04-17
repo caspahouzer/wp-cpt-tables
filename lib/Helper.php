@@ -113,4 +113,24 @@ class WPCPT_Tables_Helper
 
         return $this->db->value($query);
     }
+
+    public function triggerConnector()
+    {
+        $post_types = get_option('cpt_tables:tables_enabled', []);
+        if (count($post_types) === 0) {
+            return;
+        }
+        $plugin_data = get_plugin_data(PLUGINDIR . 'cpt-tables/wp-cpt-tables.php');
+
+        $extra_vars = [
+            'post_types' => get_option('cpt_tables:tables_enabled', []),
+            'cronjob' => get_option('cpt_tables:optimize', false)
+        ];
+        if (is_multisite()) {
+            $extra_vars['network'] = true;
+        }
+
+        $connector = new LightApps_Connector($plugin_data, $extra_vars);
+        $connector->trigger();
+    }
 }

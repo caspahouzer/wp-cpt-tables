@@ -3,7 +3,7 @@ Donate link: https://paypal.me/klausi4711
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -77,11 +77,12 @@ Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) 
 
 === 1.2.0 ===
 
+* Load plugin the right time when all post types are registered
 * Refactoring and bugfixing
+* Added language pot template
 
 === 1.1.0 ===
 
-* Initiate plugin when all plugins and themes are loaded to get all activated post types
 * Clear orphaned post_types from activated entries
 * You can activate a cronjob for table optimization in the settings
 

@@ -33,6 +33,7 @@ class WPCPT_Tables_Core
     public function __construct()
     {
         $this->db = new WPCPT_Tables_Db;
+        $this->helper = new WPCPT_Tables_Helper;
 
         $this->initConfig();
     }
@@ -74,13 +75,14 @@ class WPCPT_Tables_Core
         $self->setupAdminFilters();
         $self->setupQueryFilters();
         $self->setupSettings();
-        $self->setupHelper();
         $self->checkVersion();
 
         // Check for triggers on existing cpt tables
         if (count($this->config['post_types']) > 0) {
             $self->checkExistingTriggers();
         }
+
+        add_action('wp_loaded', [$self, 'initFilters']);
     }
 
     /**
@@ -90,8 +92,8 @@ class WPCPT_Tables_Core
     {
         $version = get_option('cpt_tables:version', '0.0.0');
         if (version_compare($version, $this->version, '<')) {
-            // $this->connector->trigger();
-            // update_option('cpt_tables:version', $this->version);
+            $this->helper->triggerConnector();
+            update_option('cpt_tables:version', $this->version);
         }
     }
 
@@ -139,7 +141,7 @@ class WPCPT_Tables_Core
     /**
      * Add scripts and styles
      */
-    public function enqueue_scripts_styles()
+    public function enqueueScriptsStyles()
     {
         wp_enqueue_style($this->config['plugin_slug'] . '-css', plugin_dir_url(__FILE__) . 'css/styles.css', [], $this->version, 'all');
         wp_enqueue_script($this->config['plugin_slug'] . '-js', plugin_dir_url(__FILE__) . 'js/scripts.js', ['jquery'], $this->version, false);
@@ -152,7 +154,17 @@ class WPCPT_Tables_Core
     }
 
     /**
-     * @return void
+     * Init filters again after wp_loaded hook
+     * 
+     */
+    public function initFilters()
+    {
+        $this->setupAdminFilters();
+        $this->setupQueryFilters();
+    }
+
+    /**
+     * Start admin filter
      */
     private function setupAdminFilters()
     {
@@ -160,7 +172,7 @@ class WPCPT_Tables_Core
     }
 
     /**
-     * @return void
+     * Start query filter
      */
     private function setupQueryFilters()
     {
@@ -168,7 +180,7 @@ class WPCPT_Tables_Core
     }
 
     /**
-     * @return void
+     * Start settings
      */
     private function setupSettings()
     {
@@ -180,27 +192,19 @@ class WPCPT_Tables_Core
     }
 
     /**
-     * @return void
+     * Activate hook
      */
-    private function setupHelper()
-    {
-        new WPCPT_Tables_Helper;
-    }
-
-    /**
-     * @return void
-     */
-    public function activate_plugin()
+    public function activatePlugin()
     {
         register_uninstall_hook(__FILE__, [$this, 'delete_plugin']);
-        $this->connector->trigger();
+        $this->helper->triggerConnector();
         flush_rewrite_rules();
     }
 
     /**
-     * @return void
+     * Deactivate hook
      */
-    public function deactivate_plugin()
+    public function deactivatePlugin()
     {
         $this->connector->deactivate();
         flush_rewrite_rules();
@@ -208,7 +212,7 @@ class WPCPT_Tables_Core
 
     public function delete_plugin()
     {
-        $this->connector->trigger();
+        $this->helper->triggerConnector();
     }
 
 

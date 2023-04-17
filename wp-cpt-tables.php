@@ -4,7 +4,7 @@
  * Plugin Name:         CPT Tables
  * Plugin URI:          https://wordpress.org/plugins/cpt-tables/
  * Description:         Allow storing custom post types in their own tables in order to make querying large datasets more efficient
- * Version:             1.2.0
+ * Version:             1.2.1
  * Requires at least:   5.9
  * Requires PHP:        7.1
  * Author:              Sebastian Klaus
@@ -35,13 +35,13 @@ if (!class_exists('WPCPT_Tables_Core')) {
     $core = new WPCPT_Tables_Core(new WPCPT_Tables_Db());
     $core->initConfig();
 
-    register_activation_hook(__FILE__, [$core, 'activate_plugin']);
-    register_deactivation_hook(__FILE__, [$core, 'deactivate_plugin']);
+    register_activation_hook(__FILE__, [$core, 'activatePlugin']);
+    register_deactivation_hook(__FILE__, [$core, 'deactivatePlugin']);
 
-    add_action('admin_enqueue_scripts', [$core, 'enqueue_scripts_styles']);
+    add_action('admin_enqueue_scripts', [$core, 'enqueueScriptsStyles']);
 
     // Load the plugin filter and setup the classes
-    add_action('wp_loaded', [$core, 'load']);
+    add_action('plugins_loaded', [$core, 'load']);
 
     // Clear enabled post types if they don't exist
     add_action('wp_loaded', [$core, 'clearEnabledPostTypes']);
