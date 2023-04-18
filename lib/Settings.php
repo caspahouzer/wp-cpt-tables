@@ -173,7 +173,7 @@ class WPCPT_Tables_Settings
     public function showSettingsPage()
     {
         if (!current_user_can(apply_filters($this->capability, 'manage_options'))) {
-            wp_die('You do not have sufficient permissions to access this page.');
+            wp_die(__('You do not have sufficient permissions to access this page.', 'cpt-tables'));
         }
 
         $postTypes = $this->getAllPostTypes();
@@ -205,6 +205,8 @@ class WPCPT_Tables_Settings
 
         // Add notice and redirect
         $this->notices->add(sprintf(__('Custom post type <strong>%s</strong> has been reverted to the posts table', 'cpt-tables'), $postType));
+
+        // Redirect
         wp_safe_redirect($this->redirect_uri);
     }
 

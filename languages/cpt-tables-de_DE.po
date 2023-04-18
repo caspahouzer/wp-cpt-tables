@@ -1,0 +1,267 @@
+# Copyright (C) 2023 Sebastian Klaus
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: CPT Tables 1.2.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpt-tables\n"
+"POT-Creation-Date: 2023-04-18T08:55:29+00:00\n"
+"PO-Revision-Date: 2023-04-18 11:22+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Domain: cpt-tables\n"
+
+#. Plugin Name of the plugin
+msgid "CPT Tables"
+msgstr "CPT Tables"
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/cpt-tables/"
+msgstr "https://wordpress.org/plugins/cpt-tables/"
+
+#. Description of the plugin
+msgid ""
+"Allow storing custom post types in their own tables in order to make "
+"querying large datasets more efficient"
+msgstr ""
+"Ermöglicht die Speicherung benutzerdefinierter Beitragstypen in eigenen "
+"Tabellen, um die Abfrage großer Datenmengen effizienter zu gestalten"
+
+#. Author of the plugin
+msgid "Sebastian Klaus"
+msgstr "Sebastian Klaus"
+
+#. Author URI of the plugin
+msgid "https://lightapps.de"
+msgstr "https://lightapps.de"
+
+#: core.php:258
+msgctxt "verb"
+msgid "Buy me a coffee"
+msgstr "Kaufen Sie mir einen Kaffee"
+
+#: lib/Settings.php:127
+msgid "Cronjobs removed"
+msgstr "Cronjobs entfernt"
+
+#: lib/Settings.php:132
+msgid "Optimization cronjobs active"
+msgstr "Optimierung der Cronjobs aktiv"
+
+#: lib/Settings.php:140
+msgid "Tables cleaned up and optimized"
+msgstr "Tabellen bereinigt und optimiert"
+
+#: lib/Settings.php:176
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+"Du hast nicht die erforderlichen Rechte, um auf diese Seite zuzugreifen."
+
+#: lib/Settings.php:207
+msgid ""
+"Custom post type <strong>%s</strong> has been reverted to the posts table"
+msgstr ""
+"Benutzerdefinierter Beitragstyp <strong>%s</strong> wurde in die Posts-"
+"Tabelle zurückgespielt"
+
+#: lib/Settings.php:246
+msgid "Custom post type <strong>%s</strong> has been migrated"
+msgstr "Der benutzerdefinierte Beitragstyp <strong>%s</strong> wurde migriert"
+
+#: lib/Table.php:179
+msgid "Migration of <strong>%s</strong>:"
+msgstr "Migration von <strong>%s</strong>:"
+
+#: lib/Table.php:198
+msgid "Error cleaning up the posts table before migrate"
+msgstr "Fehler beim Bereinigen der Beitragstabelle vor der Migration"
+
+#: lib/Table.php:214
+msgid "Error copying %s rows: %s"
+msgstr "Fehler beim Kopieren von %s Zeilen: %s"
+
+#: lib/Table.php:217
+msgid "New %s rows copied: %s"
+msgstr "Neue %s Zeilen kopiert: %s"
+
+#: lib/Table.php:235
+msgid "Error copying %s meta rows: %s"
+msgstr "Fehler beim Kopieren von %s Meta Zeilen: %s"
+
+#: lib/Table.php:238
+msgid " %s completed"
+msgstr " %s fertiggestellt"
+
+#: settings.php:16
+msgid ""
+"Warning: You are in a multisite environment. The settings will only be "
+"visible to a site."
+msgstr ""
+"Warnung: Du befindest dich in einer Multisite-Umgebung. Die Einstellungen "
+"werden nur für eine Site sichtbar sein."
+
+#: settings.php:31
+msgid "No CPT found"
+msgstr "Keine CPT gefunden"
+
+#: settings.php:36 settings.php:44
+msgid "%s is installed and active but no custom post types found."
+msgstr ""
+"%s ist installiert und aktiv, aber es wurden keine benutzerdefinierten "
+"Beitragstypen gefunden."
+
+#: settings.php:37 settings.php:45
+msgid "Start creating your first CPT"
+msgstr "Erstelle deinen ersten CPT"
+
+#: settings.php:39 settings.php:47
+msgid "%s is installed but not active."
+msgstr "%s ist installiert, aber nicht aktiv."
+
+#: settings.php:48
+msgid ""
+"Go to your <a href=\"%s\">installed plugins</a> and activate it to create "
+"your first CPT"
+msgstr ""
+"Gehe zu deinen <a href=„%s“>installierten Plugins</a> und aktiviere es um "
+"deinen ersten CPT zu erstellen"
+
+#: settings.php:53
+msgid ""
+"You don't have installed any custom post types. Please install %s or %s."
+msgstr ""
+"Du hast keine benutzerdefinierten Beitragstypen installiert. Bitte "
+"installiere %s oder %s."
+
+#: settings.php:58
+msgid "Or search for any other %s"
+msgstr "Oder suche nach irgendeinem anderen %s"
+
+#: settings.php:62
+msgid "Or create Custom Post Types %s"
+msgstr "Oder erstelle Custom Post Types %s"
+
+#: settings.php:76 settings.php:88
+msgid "Tables to optimize"
+msgstr "Optimierbare Tabellen"
+
+#: settings.php:79
+msgid ""
+"The use of meta tables often leaves residual data that is not needed and "
+"bloats the database."
+msgstr ""
+"Bei der Verwendung von Metatabellen bleiben oft Daten übrig, die nicht "
+"benötigt werden und die Datenbank aufblähen."
+
+#: settings.php:81
+msgid "Cronjob is installed"
+msgstr "Cronjob ist installiert"
+
+#: settings.php:81
+msgid "Remove Cronjob"
+msgstr "Cronjob entfernen"
+
+#: settings.php:83
+msgid ""
+"You can install this cron job to optimize the tables at regular intervals."
+msgstr ""
+"Du kannst diesen Cron-Job installieren, um die Tabellen in regelmäßigen "
+"Abständen zu optimieren."
+
+#: settings.php:84
+msgid "Install Cronjob"
+msgstr "Cronjob installieren"
+
+#: settings.php:86
+msgid "Optimize now!"
+msgstr "Jetzt optimieren!"
+
+#: settings.php:100
+msgid "How it works"
+msgstr "Wie es funktioniert"
+
+#: settings.php:103
+msgid ""
+"As soon as you select a Custom Post Type, a new table is created in the "
+"database. This newly created table will be used for all entries of this "
+"custom post type."
+msgstr ""
+"Sobald du einen benutzerdefinierten Beitragstyp auswählst, wird eine neue "
+"Tabelle in der Datenbank erstellt. Diese neu erstellte Tabelle wird für "
+"alle Einträge dieses benutzerdefinierten Beitragstyps verwendet."
+
+#: settings.php:104
+msgid ""
+"When you migrate the existing entries, the data from the old table is moved "
+"to the new table."
+msgstr ""
+"Wenn du die vorhandenen Einträge migrierst, werden die Daten aus der alten "
+"Tabelle in die neue Tabelle übertragen."
+
+#: settings.php:105
+msgid "Backup"
+msgstr "Sicherung"
+
+#: settings.php:105
+msgid ""
+"This plugin modifies your WordPress database. Backup your database before "
+"migrating in case something doesn't work as you expect."
+msgstr ""
+"Dieses Plugin modifiziert deine WordPress-Datenbank. Sichere deine "
+"Datenbank vor der Migration, falls etwas nicht so funktioniert, wie du es "
+"erwartest."
+
+#: settings.php:117
+msgid "Custom Post Types"
+msgstr "Custom Post Types"
+
+#: settings.php:121
+msgid "All custom post types are already using custom tables."
+msgstr ""
+"Alle benutzerdefinierten Beitragstypen verwenden bereits benutzerdefinierte "
+"Tabellen."
+
+#: settings.php:127 settings.php:169
+msgid "Custom Post Type"
+msgstr "Custom Post Type"
+
+#: settings.php:128
+msgid "New Table Name"
+msgstr "Neuer Tabellenname"
+
+#: settings.php:129 settings.php:171
+msgid "Entries"
+msgstr "Einträge"
+
+#: settings.php:130 settings.php:172
+msgid "Meta"
+msgstr "Meta"
+
+#: settings.php:140 settings.php:182
+msgid "Name"
+msgstr "Name"
+
+#: settings.php:144
+msgid "Migrate"
+msgstr "Migrieren"
+
+#: settings.php:160
+msgid "Migrated Custom Post Types"
+msgstr "Migrierte Custom Post Types"
+
+#: settings.php:164
+msgid "No custom post types have been migrated yet."
+msgstr "Es wurden noch keine benutzerdefinierten Beitragstypen migriert."
+
+#: settings.php:170
+msgid "Table Name"
+msgstr "Tabellenname"
+
+#: settings.php:186
+msgid "Revert"
+msgstr "Zurücksetzen"

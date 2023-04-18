@@ -3,7 +3,7 @@ Donate link: https://paypal.me/klausi4711
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -75,7 +75,13 @@ Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) 
 
 == Changelog ==
 
-=== 1.2.0 ===
+=== 1.2.2 ===
+
+* German translation
+* Add missing migrated post_types, when the custom table exists
+* Fixed bug on deactivate the plugin
+
+=== 1.2.1 ===
 
 * Load plugin the right time when all post types are registered
 * Refactoring and bugfixing

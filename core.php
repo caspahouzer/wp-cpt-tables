@@ -55,7 +55,7 @@ class WPCPT_Tables_Core
             'default_meta_table' => $wpdb->prefix . 'postmeta',
         ];
 
-        $plugin_data = get_plugin_data(dirname(__FILE__) . '/wp-cpt-tables.php');
+        $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/cpt-tables/wp-cpt-tables.php');
         $this->version = $plugin_data['Version'];
         $this->config['version'] = $this->version;
     }
@@ -71,6 +71,7 @@ class WPCPT_Tables_Core
         add_filter('network_admin_plugin_action_links_cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
         add_filter('plugin_row_meta', array($this, 'filterPluginRowMeta'), 10, 2);
 
+        $self->loadLocalization();
         $self->setupConnector();
         $self->setupAdminFilters();
         $self->setupQueryFilters();
@@ -79,10 +80,19 @@ class WPCPT_Tables_Core
 
         // Check for triggers on existing cpt tables
         if (count($this->config['post_types']) > 0) {
+            $self->checkTablesAndCompareToPostTypes();
             $self->checkExistingTriggers();
         }
 
         add_action('wp_loaded', [$self, 'initFilters']);
+    }
+
+    /**
+     * Load localization
+     */
+    private function loadLocalization()
+    {
+        load_plugin_textdomain('cpt-tables', false, 'cpt-tables/languages/');
     }
 
     /**
@@ -91,7 +101,7 @@ class WPCPT_Tables_Core
     private function checkVersion()
     {
         $version = get_option('cpt_tables:version', '0.0.0');
-        if (version_compare($version, $this->version, '<')) {
+        if (version_compare($version, $this->version) === -1) {
             $this->helper->triggerConnector();
             update_option('cpt_tables:version', $this->version);
         }
@@ -115,6 +125,28 @@ class WPCPT_Tables_Core
             }
         }
         if ($cleared) {
+            update_option($this->config['tables_enabled'], $this->config['post_types']);
+        }
+    }
+
+    /**
+     * Check if tables exist and compare to enabled post types
+     */
+    public function checkTablesAndCompareToPostTypes()
+    {
+        global $wpdb;
+        $tables = $wpdb->get_col("SHOW TABLES LIKE '{$this->config['prefix']}%'");
+        $tables = array_map(function ($table) {
+            return str_replace($this->config['prefix'], '', $table);
+        }, $tables);
+        // remove array entries with _meta
+        $tables = array_filter($tables, function ($table) {
+            return strpos($table, '_meta') === false;
+        });
+        $missing_tables = array_diff($tables, $this->config['post_types']);
+        if (count($missing_tables) > 0) {
+            error_log('Tables found that are not enabled in the plugin settings. Adding to migrated tables.');
+            $this->config['post_types'] = array_merge($this->config['post_types'], $missing_tables);
             update_option($this->config['tables_enabled'], $this->config['post_types']);
         }
     }
@@ -206,13 +238,13 @@ class WPCPT_Tables_Core
      */
     public function deactivatePlugin()
     {
-        $this->connector->deactivate();
+        $this->helper->triggerConnector('draft');
         flush_rewrite_rules();
     }
 
     public function delete_plugin()
     {
-        $this->helper->triggerConnector();
+        $this->helper->triggerConnector('delete');
     }
 
 

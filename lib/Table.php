@@ -176,7 +176,7 @@ class WPCPT_Tables_Table
         // be sure the target tables exists
         $this->createTables($table);
 
-        $message = sprintf(__('Migration of <strong>%s</strong>:<br/>', 'cpt-tables'), $custom_post_type);
+        $message = sprintf(__('Migration of <strong>%s</strong>:', 'cpt-tables'), $custom_post_type) . '<br/>';
         $successMessage = $message;
         $errorMessage = $message;
 
@@ -235,7 +235,7 @@ class WPCPT_Tables_Table
             $errorMessage .= sprintf(__('Error copying %s meta rows: %s', 'cpt-tables'), $custom_post_type, $wpdb->last_error) . ' <br/>';
             $hasErrors = true;
         } else {
-            $successMessage .= sprintf(__('Migration of %s completed', 'cpt-tables'), $custom_post_type) . '<br/>';
+            $successMessage .= sprintf(__(' %s completed', 'cpt-tables'), $custom_post_type) . '<br/>';
         }
 
         // delete the data from tables if no errors

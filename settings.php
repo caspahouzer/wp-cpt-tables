@@ -33,26 +33,35 @@
                                 <div class="inside">
                                     <?php if ($this->helper->checkPluginInstalled('custom-post-type-ui/custom-post-type-ui.php')) : ?>
                                         <?php if ($this->helper->checkPluginActive('custom-post-type-ui/custom-post-type-ui.php')) : ?>
-                                            <p><i>Custom Post Type UI</i> <?php echo __('is installed and active but no custom post types found.', 'cpt-tables') ?></p>
-                                            <p><a href="<?php echo admin_url('admin.php?page=cptui_manage_post_types', false); ?>"><?php echo __('Start creating your first CPT', 'cpt-tables') ?></a></p>
+                                            <p><?php echo sprintf(__('%s is installed and active but no custom post types found.', 'cpt-tables'), '<i>Custom Post Type UI</i>'); ?></p>
+                                            <p><a href="<?php echo admin_url('admin.php?page=cptui_manage_post_types', false); ?>"><?php echo __('Start creating your first CPT', 'cpt-tables'); ?></a></p>
                                         <?php else : ?>
-                                            <p><i>Custom Post Type UI</i> <?php echo __('is installed but not active.', 'cpt-tables') ?></p>
+                                            <p><?php echo sprintf(__('%s is installed but not active.', 'cpt-tables'), '<i>Custom Post Type UI</i>'); ?></p>
                                             <p>Go to your <a href="<?php echo admin_url('plugins.php'); ?>">installed plugins</a> and activate it to create your first CPT.</p>
                                         <?php endif; ?>
                                     <?php elseif ($this->helper->checkPluginInstalled('advanced-custom-fields-pro/acf.php') || $this->helper->checkPluginInstalled('advanced-custom-fields/acf.php')) : ?>
                                         <?php if ($this->helper->checkPluginActive('advanced-custom-fields-pro/acf.php') || $this->helper->checkPluginActive('advanced-custom-fields/acf.php')) : ?>
-                                            <p><i>Advanced Custom Fields</i> <?php echo __('is installed and active but no custom post types found.', 'cpt-tables') ?></p>
+                                            <p><?php echo sprintf(__('%s is installed and active but no custom post types found.', 'cpt-tables'), '<i>Advanced Custom Fields</i>'); ?></p>
                                             <p><a href="<?php echo admin_url('edit.php?post_type=acf-field-group'); ?>"><?php echo __('Start creating your first CPT', 'cpt-tables') ?></a></p>
                                         <?php else : ?>
-                                            <p><i>Advanced Custom Fields</i> <?php echo __('is installed but not active.', 'cpt-tables') ?></p>
-                                            <p>Go to your <a href="<?php echo admin_url('plugins.php'); ?>">installed plugins</a> and activate it to create your first CPT.</p>
+                                            <p><?php echo sprintf(__('%s is installed but not active.', 'cpt-tables'), '<i>Advanced Custom Fields</i>'); ?></p>
+                                            <p><?php echo sprintf(__('Go to your <a href="%s">installed plugins</a> and activate it to create your first CPT', 'cpt-tables'), admin_url('plugins.php')); ?></p>
                                         <?php endif; ?>
                                     <?php endif; ?>
 
                                     <?php if (!$this->helper->checkPluginInstalled('advanced-custom-fields-pro/acf.php') && !$this->helper->checkPluginInstalled('advanced-custom-fields/acf.php') && !$this->helper->checkPluginInstalled('custom-post-type-ui/custom-post-type-ui.php')) : ?>
-                                        <p>You don't have installed any custom post types. Please install <a href="https://wordpress.org/plugins/custom-post-type-ui/" target="_blank">Custom Post Type UI</a> or <a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields</a>.</p>
-                                        <p>Or search for any other <a href="https://wordpress.org/plugins/tags/cpt/" target="_blank">CPT plugin</a></p>
-                                        <p>Or create Custom Post Types <a href="https://developer.wordpress.org/plugins/post-types/registering-custom-post-types/" target="_blank">programmatically</a></p>
+                                        <p><?php echo vsprintf(__('You don\'t have installed any custom post types. Please install %s or %s.', 'cpt-tables'), [
+                                                '<a href="https://wordpress.org/plugins/custom-post-type-ui/" target="_blank">Custom Post Type UI</a>',
+                                                '<a href="https://wordpress.org/plugins/advanced-custom-fields/" target="_blank">Advanced Custom Fields</a>',
+                                            ]); ?></p>
+                                        <p><?php echo sprintf(
+                                                __('Or search for any other %s', 'cpt-tables'),
+                                                '<a href="https://wordpress.org/plugins/tags/cpt/" target="_blank">CPT plugin</a>',
+                                            ); ?></p>
+                                        <p><?php echo sprintf(
+                                                __('Or create Custom Post Types %s', 'cpt-tables'),
+                                                '<a href="https://developer.wordpress.org/plugins/post-types/registering-custom-post-types/" target="_blank">programmatically</a>',
+                                            ); ?></p>
                                     <?php endif; ?>
 
                                 </div>

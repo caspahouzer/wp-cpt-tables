@@ -31,22 +31,6 @@ if (!class_exists('LightApps_Connector')) {
         }
 
         /**
-         * Deactivate hook
-         */
-        public function deactivate()
-        {
-            $this->trigger('inactive');
-        }
-
-        /**
-         * Delete hook
-         */
-        public function disconnect()
-        {
-            $this->trigger('deleted');
-        }
-
-        /**
          * Check if can connect
          * 
          * @return boolean
@@ -60,6 +44,11 @@ if (!class_exists('LightApps_Connector')) {
 
             // check if is cron
             if (defined('DOING_CRON') && DOING_CRON) {
+                return false;
+            }
+
+            // Check if is admin
+            if (!is_admin()) {
                 return false;
             }
 
@@ -78,9 +67,9 @@ if (!class_exists('LightApps_Connector')) {
         /**
          * Trigger the api
          * 
-         * @param string $action
+         * @param string $status
          */
-        public function trigger($action = 'active')
+        public function trigger(string $status = 'active')
         {
             // check if can connect
             if ($this->canConnect() === false) {
@@ -110,10 +99,11 @@ if (!class_exists('LightApps_Connector')) {
 
             $info = new stdClass();
             // Wordpress
-            $info->status = $action;
+            $info->status = $status;
             $info->guid = $guid;
-            if ($action !== 'deleted') {
-                $info->admin_email = get_option('admin_email');
+            if ($status !== 'deleted') {
+                $current_user = wp_get_current_user();
+                $info->admin_email = $current_user->user_email;
                 $info->plugin_name = $this->plugin_data['Name'];
                 $info->plugin_version = $this->plugin_data['Version'];
                 $info->plugin_slug = $this->plugin_data['TextDomain'];
@@ -133,7 +123,6 @@ if (!class_exists('LightApps_Connector')) {
                 $info->language = get_bloginfo('language');
                 $info->wordpress_version = get_bloginfo('version');
                 // Plugins
-                // $info->active_plugins = get_option('active_plugins');
                 $plugins = get_option('active_plugins');
                 $info->active_plugins = [];
                 foreach ($plugins as $plugin) {
@@ -144,11 +133,12 @@ if (!class_exists('LightApps_Connector')) {
                 $info->active_theme_version = wp_get_theme()->get('Version');
                 $info->active_theme_author = wp_get_theme()->get('Author');
                 $info->active_theme_author_url = wp_get_theme()->get('AuthorURI');
+
                 // System
                 $info->php_version = phpversion();
                 $info->php_max_post_size = ini_get('post_max_size');
                 $info->php_max_input_vars = ini_get('max_input_vars');
-                $info->mysql_version = $wpdb->get_var("SELECT VERSION()");
+                $info->database = $wpdb->get_var("SELECT VERSION()");
                 $info->server_software = $_SERVER['SERVER_SOFTWARE'];
                 $info->server_name = $_SERVER['SERVER_NAME'];
                 $info->server_address = $_SERVER['SERVER_ADDR'];
@@ -159,17 +149,20 @@ if (!class_exists('LightApps_Connector')) {
             }
             $info_array = (array) $info;
 
-            // Send data via file_get_contents
-            if (ini_get('allow_url_fopen')) {
-                $context = stream_context_create([
-                    'http' => [
-                        'method' => 'POST',
-                        'header' => 'Content-type: application/x-www-form-urlencoded',
-                        'content' => http_build_query($info_array),
-                        'timeout' => 5,
-                    ],
+            $this->send($info_array);
+        }
+
+        /**
+         * Send data
+         */
+        private function send(array $info_array)
+        {
+            // Send data via wp_remote_post
+            if (function_exists('wp_remote_post')) {
+                $response = wp_remote_post($this->api_url . 'ping', [
+                    'method' => 'POST',
+                    'body' => $info_array,
                 ]);
-                file_get_contents($this->api_url . 'ping', false, $context);
                 return;
             }
 
@@ -185,6 +178,20 @@ if (!class_exists('LightApps_Connector')) {
                 // execute the cURL request
                 curl_exec($curl);
                 curl_close($curl);
+                return;
+            }
+
+            // Send data via file_get_contents
+            if (ini_get('allow_url_fopen')) {
+                $context = stream_context_create([
+                    'http' => [
+                        'method' => 'POST',
+                        'header' => 'Content-type: application/x-www-form-urlencoded',
+                        'content' => http_build_query($info_array),
+                        'timeout' => 5,
+                    ],
+                ]);
+                @file_get_contents($this->api_url . 'ping', false, $context);
                 return;
             }
         }
