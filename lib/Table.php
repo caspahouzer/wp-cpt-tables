@@ -155,7 +155,7 @@ class WPCPT_Tables_Table
             $successMessage .= 'Tables deleted: ' . $table . ', ' . $table . '_meta<br/>';
         }
 
-        WPCPT_Tables_QueryFilters::$active = true;
+        WPCPT_Tables_QueryFilters::activate();
     }
 
     /**
@@ -262,7 +262,7 @@ class WPCPT_Tables_Table
             $this->db->query($query, ...$params);
         }
 
-        WPCPT_Tables_QueryFilters::$active = true;
+        WPCPT_Tables_QueryFilters::activate();
 
         if ($hasErrors) {
             $this->notices->add($errorMessage, 'error');

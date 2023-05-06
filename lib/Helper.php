@@ -26,6 +26,10 @@ class WPCPT_Tables_Helper
     }
 
     /**
+     * 
+     */
+
+    /**
      * Delete the post from the main posts table
      *
      * @param int $post_id
@@ -34,9 +38,9 @@ class WPCPT_Tables_Helper
      */
     public function savePostAction(int $post_id, WP_Post $post, bool $update)
     {
-        WPCPT_Tables_QueryFilters::$active = false;
+        WPCPT_Tables_QueryFilters::deactivate();
         wp_delete_post($post_id, true);
-        WPCPT_Tables_QueryFilters::$active = true;
+        WPCPT_Tables_QueryFilters::activate();
     }
 
     /**

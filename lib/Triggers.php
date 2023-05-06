@@ -113,8 +113,7 @@ class WPCPT_Tables_Triggers
         // Create the copy from wp_posts to custom table trigger
         $params = [];
         $query = sprintf(
-            "CREATE TRIGGER %s
-            AFTER INSERT ON %s FOR EACH ROW BEGIN ",
+            "CREATE TRIGGER %s AFTER INSERT ON %s FOR EACH ROW BEGIN IF @disable_triggers IS NULL THEN ",
             $this->db->escape($this->config['prefix'] . $this->insertPostTrigger),
             $this->db->escape($this->config['default_post_table'])
         );
@@ -138,7 +137,7 @@ class WPCPT_Tables_Triggers
             $params[] = $postType;
         }
 
-        $query .= "END IF; END";
+        $query .= "END IF; END IF; END";
 
         $this->db->query($query, ...$params);
     }
@@ -168,8 +167,7 @@ class WPCPT_Tables_Triggers
         // Create the post meta copy trigger
         $params = [];
         $query = sprintf(
-            "CREATE TRIGGER %s
-            AFTER INSERT ON %s FOR EACH ROW BEGIN ",
+            "CREATE TRIGGER %s AFTER INSERT ON %s FOR EACH ROW BEGIN IF @disable_triggers IS NULL THEN ",
             $this->db->escape($this->config['prefix'] . $this->insertMetaTrigger),
             $this->db->escape($this->config['default_meta_table'])
         );
@@ -193,7 +191,7 @@ class WPCPT_Tables_Triggers
             $params[] = $postType;
         }
 
-        $query .= "END IF; END";
+        $query .= "END IF; END IF; END";
 
         $this->db->query($query, ...$params);
 

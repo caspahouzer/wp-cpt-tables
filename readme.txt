@@ -3,7 +3,7 @@ Donate link: https://paypal.me/klausi4711
 Tags: custom post types, CPT, CMS, post, types, post type, custom, content types, custom content types, post types
 Requires at least: 5.9
 Tested up to: 6.2
-Stable tag: 1.2.2
+Stable tag: 1.2.6
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -74,6 +74,27 @@ This plugin was initially created for own usage to get a big database cleaner.
 Check out the [GitHub repository](https://github.com/caspahouzer/wp-cpt-tables) and submit pull requests or open issues
 
 == Changelog ==
+
+=== 1.2.6 ===
+
+* Find orphaned meta values and copy to new custom table
+* Trigger optimization
+
+=== 1.2.5.2 ===
+
+* Hotfix: Altered correct auto_increment field for meta table
+
+=== 1.2.5 ===
+
+* Removed autoincrement from copied table as it is controles by the posts_table (Revert CPT Tables and migrate them again to get the changes working)
+
+=== 1.2.4 ===
+
+* Bugfix in cleanup-cronjob
+
+=== 1.2.3 ===
+
+* Revert tables on plugin deactivation
 
 === 1.2.2 ===
 

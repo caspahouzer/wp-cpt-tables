@@ -35,6 +35,20 @@ class WPCPT_Tables_QueryFilters
         add_filter('query', [$this, 'updateQueryTables']);
     }
 
+    public static function deactivate()
+    {
+        global $wpdb;
+        $wpdb->query("SET @disable_triggers = 1;");
+        self::$active = false;
+    }
+
+    public static function activate()
+    {
+        global $wpdb;
+        $wpdb->query("SET @disable_triggers = NULL;");
+        self::$active = true;
+    }
+
     /**
      * If the query is for a post type that has custom tables set up, replace
      * the post and meta tables with the custom ones

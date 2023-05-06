@@ -18,6 +18,11 @@ class WPCPT_Tables_Core
     private $helper;
 
     /**
+     * @var WPCPT_Tables_Settings
+     */
+    private $settings;
+
+    /**
      * @var LightApps_Connector
      */
     private $connector;
@@ -71,6 +76,10 @@ class WPCPT_Tables_Core
         add_filter('network_admin_plugin_action_links_cpt-tables/wp-cpt-tables.php', [$this, 'addActionLinksNetwork'], 10, 2);
         add_filter('plugin_row_meta', array($this, 'filterPluginRowMeta'), 10, 2);
 
+        if (count($this->config['post_types']) > 0) {
+            $self->checkTablesAndCompareToPostTypes();
+        }
+
         $self->loadLocalization();
         $self->setupConnector();
         $self->setupAdminFilters();
@@ -80,7 +89,6 @@ class WPCPT_Tables_Core
 
         // Check for triggers on existing cpt tables
         if (count($this->config['post_types']) > 0) {
-            $self->checkTablesAndCompareToPostTypes();
             $self->checkExistingTriggers();
         }
 
@@ -135,6 +143,9 @@ class WPCPT_Tables_Core
     public function checkTablesAndCompareToPostTypes()
     {
         global $wpdb;
+
+        $post_types = get_option('cpt_tables:tables_enabled', []);
+
         $tables = $wpdb->get_col("SHOW TABLES LIKE '{$this->config['prefix']}%'");
         $tables = array_map(function ($table) {
             return str_replace($this->config['prefix'], '', $table);
@@ -143,11 +154,11 @@ class WPCPT_Tables_Core
         $tables = array_filter($tables, function ($table) {
             return strpos($table, '_meta') === false;
         });
-        $missing_tables = array_diff($tables, $this->config['post_types']);
+        $missing_tables = array_diff($tables, $post_types);
         if (count($missing_tables) > 0) {
             error_log('Tables found that are not enabled in the plugin settings. Adding to migrated tables.');
-            $this->config['post_types'] = array_merge($this->config['post_types'], $missing_tables);
-            update_option($this->config['tables_enabled'], $this->config['post_types']);
+            $post_types = array_merge($post_types, $missing_tables);
+            update_option($this->config['tables_enabled'], $post_types);
         }
     }
 
@@ -166,6 +177,107 @@ class WPCPT_Tables_Core
                 error_log('Table "' . $table_name . '" does not have triggers. Creating triggers.');
                 $triggers = new WPCPT_Tables_Triggers($this->db, $this->config);
                 $triggers->create($this->config['post_types']);
+            }
+        }
+    }
+
+    /**
+     * Get orphaned posts
+     */
+    public function getOrphanedPosts()
+    {
+        global $wpdb;
+        $tables_class = new WPCPT_Tables_Table($this->db, $this->config);
+
+        $post_types = get_option('cpt_tables:tables_enabled', []);
+
+        foreach ($post_types as $post_type) {
+            $posts = $wpdb->get_results(
+                "SELECT p.ID, p.post_author, p.post_date, p.post_date_gmt, p.post_content, p.post_title, p.post_excerpt, p.post_status, p.comment_status, p.ping_status, p.post_password, p.post_name, p.to_ping, p.pinged, p.post_modified, p.post_modified_gmt, p.post_content_filtered, p.post_parent, p.guid, p.menu_order, p.post_type, p.post_mime_type, p.comment_count 
+                FROM {$wpdb->posts} p 
+                WHERE p.post_type = '{$post_type}'"
+            );
+
+            foreach ($posts as $post) {
+                // Insert post into cpt table
+                $wpdb->insert(
+                    $tables_class->getTableName($post_type),
+                    [
+                        'ID' => $post->ID,
+                        'post_author' => $post->post_author,
+                        'post_date' => $post->post_date,
+                        'post_date_gmt' => $post->post_date_gmt,
+                        'post_content' => $post->post_content,
+                        'post_title' => $post->post_title,
+                        'post_excerpt' => $post->post_excerpt,
+                        'post_status' => $post->post_status,
+                        'comment_status' => $post->comment_status,
+                        'ping_status' => $post->ping_status,
+                        'post_password' => $post->post_password,
+                        'post_name' => $post->post_name,
+                        'to_ping' => $post->to_ping,
+                        'pinged' => $post->pinged,
+                        'post_modified' => $post->post_modified,
+                        'post_modified_gmt' => $post->post_modified_gmt,
+                        'post_content_filtered' => $post->post_content_filtered,
+                        'post_parent' => $post->post_parent,
+                        'guid' => $post->guid,
+                        'menu_order' => $post->menu_order,
+                        'post_type' => $post->post_type,
+                        'post_mime_type' => $post->post_mime_type,
+                        'comment_count' => $post->comment_count,
+                    ]
+                );
+
+                // Delete post from wp_posts
+                $wpdb->delete(
+                    $wpdb->posts,
+                    [
+                        'ID' => $post->ID
+                    ]
+                );
+            }
+        }
+    }
+
+    /**
+     * Get orphaned meta from wp_postmeta and insert into cpt table
+     */
+    public function getOrphanedMeta()
+    {
+        global $wpdb;
+        $tables_class = new WPCPT_Tables_Table($this->db, $this->config);
+
+        $post_types = get_option('cpt_tables:tables_enabled', []);
+
+        foreach ($post_types as $post_type) {
+            // get all post id by wpdb and join with postmeta
+            $orphaned_metas = $wpdb->get_results(
+                "SELECT pm.meta_id, pm.post_id, pm.meta_key, pm.meta_value
+                 FROM {$tables_class->getTableName($post_type)} p
+                 JOIN {$wpdb->postmeta} pm ON pm.post_id = p.ID"
+            );
+
+            // loop orphane meta and insert into new table
+            foreach ($orphaned_metas as $meta) {
+                // insert into new table
+                $wpdb->insert(
+                    $tables_class->getTableName($post_type . '_meta'),
+                    [
+                        'meta_id' => $meta->meta_id,
+                        'post_id' => $meta->post_id,
+                        'meta_key' => $meta->meta_key,
+                        'meta_value' => $meta->meta_value
+                    ]
+                );
+
+                // delete from old table
+                $wpdb->delete(
+                    $wpdb->postmeta,
+                    [
+                        'meta_id' => $meta->meta_id
+                    ]
+                );
             }
         }
     }
@@ -193,6 +305,11 @@ class WPCPT_Tables_Core
     {
         $this->setupAdminFilters();
         $this->setupQueryFilters();
+
+        WPCPT_Tables_QueryFilters::$active = false;
+        $this->getOrphanedMeta();
+        $this->getOrphanedPosts();
+        WPCPT_Tables_QueryFilters::activate();
     }
 
     /**
@@ -216,7 +333,7 @@ class WPCPT_Tables_Core
      */
     private function setupSettings()
     {
-        new WPCPT_Tables_Settings(
+        $this->settings = new WPCPT_Tables_Settings(
             new WPCPT_Tables_Table($this->db, $this->config),
             new WPCPT_Tables_Triggers($this->db, $this->config),
             $this->config
@@ -230,6 +347,7 @@ class WPCPT_Tables_Core
     {
         register_uninstall_hook(__FILE__, [$this, 'delete_plugin']);
         $this->helper->triggerConnector();
+        $this->checkTablesAndCompareToPostTypes();
         flush_rewrite_rules();
     }
 
@@ -239,6 +357,18 @@ class WPCPT_Tables_Core
     public function deactivatePlugin()
     {
         $this->helper->triggerConnector('draft');
+
+        $settings = new WPCPT_Tables_Settings(
+            new WPCPT_Tables_Table($this->db, $this->config),
+            new WPCPT_Tables_Triggers($this->db, $this->config),
+            $this->config
+        );
+
+        $post_types = $this->config['post_types'];
+        foreach ($post_types as $post_type) {
+            $settings->startRevertCustomPostType($post_type, false);
+        }
+
         flush_rewrite_rules();
     }
 

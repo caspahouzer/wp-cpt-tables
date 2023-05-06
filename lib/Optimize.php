@@ -58,7 +58,7 @@ class WPCPT_Tables_Optimize
         if (count($cpt_tables) > 0) {
             foreach ($cpt_tables as $cpt_table) {
                 error_log('Cronjob: Database empty post meta value cleanup for ' . $wpdb->prefix . 'cpt_' . $cpt_table);
-                $wpdb->query('DELETE FROM ' . $wpdb->prefix . 'cpt_' . $cpt_table . '_meta WHERE meta_value = "" OR meta_value IS NULL');
+                $wpdb->query('DELETE FROM ' . $wpdb->prefix . 'cpt_' . $cpt_table . '_meta WHERE meta_value IS NULL');
                 $wpdb->query('DELETE cptm FROM ' . $wpdb->prefix . 'cpt_' . $cpt_table . '_meta cptm LEFT JOIN ' . $wpdb->prefix . 'cpt_' . $cpt_table . ' cpt ON cpt.ID = cptm.post_id WHERE cpt.ID IS NULL;');
             }
         }

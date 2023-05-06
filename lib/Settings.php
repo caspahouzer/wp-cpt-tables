@@ -189,7 +189,7 @@ class WPCPT_Tables_Settings
      *
      * @return array
      */
-    private function startRevertCustomPostType($postType)
+    public function startRevertCustomPostType($postType, $show_Notice = true)
     {
         $enabledPostTypes = $this->getEnabledPostTypes();
         if (($key = array_search($postType, $enabledPostTypes)) !== false) {
@@ -204,7 +204,9 @@ class WPCPT_Tables_Settings
         $this->revertCustomPostType($postType);
 
         // Add notice and redirect
-        $this->notices->add(sprintf(__('Custom post type <strong>%s</strong> has been reverted to the posts table', 'cpt-tables'), $postType));
+        if ($show_Notice) {
+            $this->notices->add(sprintf(__('Custom post type <strong>%s</strong> has been reverted to the posts table', 'cpt-tables'), $postType));
+        }
 
         // Redirect
         wp_safe_redirect($this->redirect_uri);

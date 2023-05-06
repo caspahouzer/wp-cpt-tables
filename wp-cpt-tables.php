@@ -4,11 +4,11 @@
  * Plugin Name:         CPT Tables
  * Plugin URI:          https://wordpress.org/plugins/cpt-tables/
  * Description:         Allow storing custom post types in their own tables in order to make querying large datasets more efficient
- * Version:             1.2.2
+ * Version:             1.2.6
  * Requires at least:   5.9
  * Requires PHP:        7.1
  * Author:              Sebastian Klaus
- * Author URI:          https://lightapps.de
+ * Author URI:          https://github.com/caspahouzer/wp-cpt-tables/
  * License:             GPL v2 or later
  * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:         cpt-tables
